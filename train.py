@@ -21,10 +21,11 @@ from model import RCNN, LayerActivations
 from utils.template import TemplateModel
 
 # 超参数
-BATCH_SIZE = 60
+BATCH_SIZE = 120
 LEARNING_RATE = 3e-4
-EPOCHS = 5
+EPOCHS = 1
 transforms = Compose([ToPILImage(),
+                      # 概率水平翻转、垂直翻转、和随机旋转
                       RandomHorizontalFlip(p=0.5),
                       RandomVerticalFlip(p=0.5),
                       RandomRotation(degrees=60),
@@ -108,45 +109,42 @@ def main():
     if model_path:
         # 如果继续训练，恢复模型
         trainer.load_state(model_path)
-    # 开始训练
+
+    # 开始训练CNN
     for epoch in range(EPOCHS):
         print(20 * "*", f"epoch:{epoch + 1}", 20 * "*")
         trainer.train_loop()
-        # 评估过后，会返回一个flag，表示当前epoch训练得到的模型是不是最好的
-        # 如果是最好的，会将当前模型保存在/check_point/best.pth中。并且针对这一模型，重新训练svm分类器
-        flag, _ = trainer.eval()
+        trainer.eval()
 
-        # 训练svm分类器,其实也可以先训练好cnn后，在使用最好的cnn训练svm分类器即可。我这里只是为了保证一次执行全部训练...
-        if flag:
-            print("训练svm")
-            inp_4096 = []
-            ys = []
-            # LayerActivations是基于torch中hook机制设计的一个类
-            # 用于在model的某一层次的设置一个标记，以便获取该层次前向传播后的输出
-            # 即获取中间层的输出
-            feat_4096 = LayerActivations(trainer.model.new_layers, 0)  # 在model的最后的fc层中的第一个module设置hook
-            # 用sklearn中SVC实现svm分类器，先标准化。这里使用默认的参数。并没有去调参
-            svm_cls = Pipeline([("norm", StandardScaler()),
-                                ("svm_cls", SVC())
-                                ])
-            # svm_cls = SVC()
-            trainer.load_state("./check_point/best.pth")
-            for X, y in train_loader:
-                # hook的机制就是模型前向传播处理input时，记录hook所在module的输出
-                trainer.inference(X)  # 前向传播
-                inp_4096.append(feat_4096.features.cpu())  # 此时feat_4096.features中就捕获到了中间层的输出
-                ys.append(y.cpu())
-            feat_4096.remove()  # 移除hook，我不知道不移除有啥后果....
-            inp_4096 = torch.cat(inp_4096, dim=0)
-            ys = torch.cat(ys, dim=0)
-            # 使用SVC（）的fit训练svm分类器，这里inp_4096shape(36201, 4096)
-            # 因此训练会非常慢(我的为10min)，还有可能内存不够...
-            svm_cls.fit(inp_4096.detach().numpy(), ys.detach().numpy())
-            # 用pickle保存svm模型
-            with open("./check_point/svm_cls.pkl", "wb") as f:
-                pickle.dump(svm_cls, f)
-                print("保存svm_cls:./check_point/svm_cls.pkl")
-                f.close()
+    # 训练svm分类器,先训练好cnn后.再使用最好的cnn训练svm分类器即可
+    print("训练svm")
+    inp_4096 = []
+    ys = []
+    # LayerActivations是基于torch中hook机制设计的一个类
+    # 用于在model的某一层次的设置一个标记，以便获取该层次前向传播后的输出
+    # 即获取中间层的输出
+    feat_4096 = LayerActivations(trainer.model.new_layers, 0)  # 在model的最后的fc层中的第一个module设置hook
+    # 用sklearn中SVC实现svm分类器，先标准化。这里使用默认的参数。并没有去调参
+    svm_cls = Pipeline([("norm", StandardScaler()),
+                        ("svm_cls", SVC())
+                        ])
+    trainer.load_state("./check_point/best.pth")
+    for X, y in train_loader:
+        # hook的机制就是模型前向传播处理input时，记录hook所在module的输出
+        trainer.inference(X)  # 前向传播
+        inp_4096.append(feat_4096.features.cpu())  # 此时feat_4096.features中就捕获到了中间层的输出
+        ys.append(y.cpu())
+    feat_4096.remove()  # 移除hook，我不知道不移除有啥后果....
+    inp_4096 = torch.cat(inp_4096, dim=0)
+    ys = torch.cat(ys, dim=0)
+    # 使用SVC（）的fit训练svm分类器，这里inp_4096shape(36201, 4096)
+    # 因此训练会非常慢(我的为10min)，还有可能内存不够...
+    svm_cls.fit(inp_4096.detach().numpy(), ys.detach().numpy())
+    # 用pickle保存svm模型
+    with open("./check_point/svm_cls.pkl", "wb") as f:
+        pickle.dump(svm_cls, f)
+        print("保存svm_cls:./check_point/svm_cls.pkl")
+        f.close()
 
 
 if __name__ == '__main__':

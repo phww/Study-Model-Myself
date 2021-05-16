@@ -115,7 +115,6 @@ class TemplateModel:
         return loss
 
     def eval(self):
-        flag = False
         self.model.eval()
         # 如果要使用一些其他的性能指标，就要设置self.metric成员。然后返回一个有关指标的字典
         # 比如使用sklearn中的f1_score, recall...
@@ -124,11 +123,10 @@ class TemplateModel:
             self.writer.add_scalar(f"{key}", scores[key].item(), self.epoch)
         if scores["acc"] >= self.best_acc:
             self.best_acc = scores["acc"]
-            self.save_state(osp.join(self.ckpt_dir, 'best.pth'), False)
-            flag = True
+            self.save_state(osp.join(self.ckpt_dir, f'best.pth'), False)
         self.save_state(osp.join(self.ckpt_dir, '{}.pth'.format(self.epoch)))
-        print('epoch {}\tACC {:.5f}'.format(self.epoch, scores["acc"]))
-        return flag, scores["acc"]
+        print('epoch:{}\tACC {:.5f}'.format(self.epoch, scores["acc"]))
+        return scores["acc"]
 
     def eval_scores(self):
         xs, ys, preds = [], [], []
