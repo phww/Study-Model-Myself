@@ -7,8 +7,6 @@
 # @desc :
 import os.path
 import pickle
-import time
-
 import matplotlib.pyplot as plt
 import torch
 from tqdm.auto import tqdm
@@ -36,7 +34,7 @@ def selectiveSearch(img):
     return rects
 
 
-def generateBbox(img, rects, transforms, model, svm):
+def generateBbox(img, rects, transforms, model, svm, info):
     """
     使用训练好的CNN模型，从selective search算法中生成的候选区域中找出包含目标的bbox
     Args:
@@ -84,10 +82,17 @@ def generateBbox(img, rects, transforms, model, svm):
     select_bbox = nms2(bbox, scores)
     print("NMS后的bbox数量:", len(select_bbox))
     feat_4096.remove()
-    return select_bbox
+    # info
+    info.append(len(bbox))
+    info.append(len(select_bbox))
+    if svm is not None:
+        info.append("svm")
+    else:
+        info.append("no-svm")
+    return select_bbox, info
 
 
-def drawBbox(img, final_bbox, save_path='./img_pred'):
+def drawBbox(img, final_bbox, info, save_path='./img_pred'):
     """
     绘制在预测的图片上绘制目标的bbox，并保存图片
     """
@@ -101,12 +106,15 @@ def drawBbox(img, final_bbox, save_path='./img_pred'):
     plt.imshow(img[..., ::-1])  # opencv 读取的图像为BGR，plt的为RGB。这里只是反转了颜色通道
     plt.show()
     if save_path is not None:
-        img_path = os.path.join(save_path, str(time.strftime("%Y-%m-%d-%H:%M:%S")) + ".jpg")
+        # 图片名为：ss算法生成的候选区域数量-网络最终分为正列的数量-NMS处理后的bbox数量-使用svm？-图片名称
+        msg = f"{info[1]}-{info[2]}-{info[3]}-{info[4]}-{info[0]}"
+        img_path = os.path.join(save_path, msg)
         plt.imsave(img_path, img[..., ::-1])
         print(f"保存图片：{img_path}")
 
 
 def main(img_path, model_path, svm):
+    img_name = img_path.split("/")[-1]
     model = RCNN()
     state = torch.load(model_path)
     model.load_state_dict(state['model'])
@@ -114,16 +122,17 @@ def main(img_path, model_path, svm):
     img = cv2.imread(img_path)
     rects = selectiveSearch(img)
     print("regions:", len(rects))
-    final_bbox = generateBbox(img, rects, transforms, model, svm)
+    info = [img_name, len(rects)]
+    final_bbox, info = generateBbox(img, rects, transforms, model, svm, info)
     img_out = img.copy()
-    drawBbox(img_out, final_bbox)
+    drawBbox(img_out, final_bbox, info)
 
 
 if __name__ == "__main__":
-    img_path = "./test4.jpg"
+    img_path = "./test3.jpg"
     model_path = "./check_point/best.pth"
     svm_path = "./check_point/svm_cls.pkl"
     with open(svm_path, "rb") as f:
         svm_cls = pickle.load(f)
         f.close()
-    main(img_path, model_path, svm_cls)
+    main(img_path, model_path, None)

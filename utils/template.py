@@ -89,14 +89,14 @@ class TemplateModel:
             loss.backward()
             self.optimizer.step()
             running_loss += loss.item()
-            if self.global_step % self.log_per_step == 0:
+            if step % self.log_per_step == 0:
                 # 记录每一批loss的平均loss
                 avg_loss = running_loss / (self.log_per_step * len(batch))
                 self.writer.add_scalar('loss', avg_loss, self.global_step)
                 print(
                     f"loss:{avg_loss : .5f}\tcur:[{(step + 1) * self.train_loader.batch_size}]\[{len(self.train_loader.dataset)}]")
 
-                # 记录参数
+                # 记录参数和梯度
                 for tag, value in self.model.named_parameters():
                     tag = tag.replace('.', '/')
                     self.writer.add_histogram('weights/' + tag, value.data.cpu().numpy())
@@ -114,7 +114,7 @@ class TemplateModel:
         loss = self.criterion(pred, y)
         return loss
 
-    def eval(self):
+    def eval(self, save_per_eval=True):
         self.model.eval()
         # 如果要使用一些其他的性能指标，就要设置self.metric成员。然后返回一个有关指标的字典
         # 比如使用sklearn中的f1_score, recall...
@@ -124,7 +124,8 @@ class TemplateModel:
         if scores["acc"] >= self.best_acc:
             self.best_acc = scores["acc"]
             self.save_state(osp.join(self.ckpt_dir, f'best.pth'), False)
-        self.save_state(osp.join(self.ckpt_dir, '{}.pth'.format(self.epoch)))
+        if save_per_eval:  # 每次评估都保存当前模型？
+            self.save_state(osp.join(self.ckpt_dir, f'epoch{self.epoch}.pth'))
         print('epoch:{}\tACC {:.5f}'.format(self.epoch, scores["acc"]))
         return scores["acc"]
 
@@ -137,7 +138,7 @@ class TemplateModel:
             y = y.to(self.device)
             pred = self.model(x)
 
-            # 下面的注释可以分批获取metric，但是要改metric的实现
+            # 下面的注释可以分批获取metric，但是要改metric()的实现
             # scores = self.metric(pred.cpu(), y.cpu())
             # for key in scores.keys():
             #     temp[key] += scores[key]
@@ -145,7 +146,7 @@ class TemplateModel:
             xs.append(x.cpu())
             ys.append(y.cpu())
             preds.append(pred.cpu())
-        # 将所有pred和label全部获取后才送入metric计算性能指标的方法要小心内存不够...
+        # 将所有pred和label全部获取后才送入metric()计算性能指标的方法要小心内存不够...
         # 分批计算metric的方法要改metric的实现，目前还不想改...
         xs = torch.cat(xs, dim=0)
         ys = torch.cat(ys, dim=0)

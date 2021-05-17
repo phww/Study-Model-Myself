@@ -5,6 +5,8 @@
 # @Version：V 0.1
 # @File : train.py
 # @desc :
+import time
+
 import torch
 import torch.nn as nn
 from torchvision.transforms import Compose, ToPILImage, ToTensor, \
@@ -12,7 +14,7 @@ from torchvision.transforms import Compose, ToPILImage, ToTensor, \
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard import SummaryWriter
 import pickle
-from sklearn.svm import SVC
+from sklearn.svm import SVC, LinearSVC
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 # 我自己的文件
@@ -23,7 +25,7 @@ from utils.template import TemplateModel
 # 超参数
 BATCH_SIZE = 120
 LEARNING_RATE = 3e-4
-EPOCHS = 1
+EPOCHS = 3
 transforms = Compose([ToPILImage(),
                       # 概率水平翻转、垂直翻转、和随机旋转
                       RandomHorizontalFlip(p=0.5),
@@ -75,6 +77,38 @@ def metric(preds, gt):
     return scores
 
 
+def trainSvm(trainer):
+    inp_4096 = []
+    ys = []
+    # LayerActivations是基于torch中hook机制设计的一个类
+    # 用于在model的某一层次设置一个标记，以便获取该层次前向传播后的输出
+    # 即获取中间层的输出
+    feat_4096 = LayerActivations(trainer.model.new_layers, 0)  # 在model的最后的fc层中的第一个module设置hook
+    # 用sklearn实现svm分类器，其中先标准化。
+    # 使用过SVC默认参数，SVC(C=20), SVC(C=0.5) 以及 LinearSVC().最后选择了SVC()
+    # LinearSVC最大迭代次数20000也无法收敛，这个没办法了只能用带‘rbf’核的SVC
+    svm_cls = Pipeline([("norm", StandardScaler()),
+                        ("svm_cls", SVC(verbose=True))
+                        ])
+    trainer.load_state("./check_point/best.pth")
+    for X, y in train_loader:
+        # hook的机制就是模型前向传播处理input时，记录hook所在module的输出
+        trainer.inference(X)  # 前向传播
+        inp_4096.append(feat_4096.features.cpu())  # 此时feat_4096.features中就捕获到了中间层的输出
+        ys.append(y.cpu())
+    feat_4096.remove()  # 移除hook，我不知道不移除有啥后果....
+    inp_4096 = torch.cat(inp_4096, dim=0)
+    ys = torch.cat(ys, dim=0)
+    # 使用SVC（）的fit训练svm分类器，这里inp_4096 shape(36201, 4096)
+    # 因此训练会非常慢(我的为10-30min)，还有可能内存不够...
+    svm_cls.fit(inp_4096.detach().numpy(), ys.detach().numpy())
+    # 用pickle保存svm模型
+    with open("./check_point/svm_cls.pkl", "wb") as f:
+        pickle.dump(svm_cls, f)
+        print("保存svm_cls:./check_point/svm_cls.pkl")
+        f.close()
+
+
 # 我自己的一个训练摸板，继承后修改__init__即可
 class Trainer(TemplateModel):
     def __init__(self):
@@ -101,51 +135,30 @@ class Trainer(TemplateModel):
         self.log_per_step = 50
 
 
-def main():
+def main(train_CNN=True, train_svm=True):
+    start = time.time()
     # 如果需要继续训练，model_path为需要继续训练的model路径
-    model_path = None
+    model_path = "./check_point/best.pth"  # "./check_point/best.pth"
     trainer = Trainer()
     trainer.check_init()
     if model_path:
         # 如果继续训练，恢复模型
         trainer.load_state(model_path)
 
-    # 开始训练CNN
-    for epoch in range(EPOCHS):
-        print(20 * "*", f"epoch:{epoch + 1}", 20 * "*")
-        trainer.train_loop()
-        trainer.eval()
+    if train_CNN:
+        # 开始训练CNN
+        for epoch in range(EPOCHS):
+            print(20 * "*", f"epoch:{epoch + 1}", 20 * "*")
+            trainer.train_loop()
+            trainer.eval(save_per_eval=True)
 
-    # 训练svm分类器,先训练好cnn后.再使用最好的cnn训练svm分类器即可
-    print("训练svm")
-    inp_4096 = []
-    ys = []
-    # LayerActivations是基于torch中hook机制设计的一个类
-    # 用于在model的某一层次的设置一个标记，以便获取该层次前向传播后的输出
-    # 即获取中间层的输出
-    feat_4096 = LayerActivations(trainer.model.new_layers, 0)  # 在model的最后的fc层中的第一个module设置hook
-    # 用sklearn中SVC实现svm分类器，先标准化。这里使用默认的参数。并没有去调参
-    svm_cls = Pipeline([("norm", StandardScaler()),
-                        ("svm_cls", SVC())
-                        ])
-    trainer.load_state("./check_point/best.pth")
-    for X, y in train_loader:
-        # hook的机制就是模型前向传播处理input时，记录hook所在module的输出
-        trainer.inference(X)  # 前向传播
-        inp_4096.append(feat_4096.features.cpu())  # 此时feat_4096.features中就捕获到了中间层的输出
-        ys.append(y.cpu())
-    feat_4096.remove()  # 移除hook，我不知道不移除有啥后果....
-    inp_4096 = torch.cat(inp_4096, dim=0)
-    ys = torch.cat(ys, dim=0)
-    # 使用SVC（）的fit训练svm分类器，这里inp_4096shape(36201, 4096)
-    # 因此训练会非常慢(我的为10min)，还有可能内存不够...
-    svm_cls.fit(inp_4096.detach().numpy(), ys.detach().numpy())
-    # 用pickle保存svm模型
-    with open("./check_point/svm_cls.pkl", "wb") as f:
-        pickle.dump(svm_cls, f)
-        print("保存svm_cls:./check_point/svm_cls.pkl")
-        f.close()
+        # 训练svm分类器,先训练好cnn后.再使用最好的cnn训练svm分类器即可
+    if train_svm:
+        print("训练svm")
+        trainSvm(trainer)
+    t = time.time() - start
+    print(f"Done!\tTotal time:{t}")
 
 
 if __name__ == '__main__':
-    main()
+    main(train_CNN=False, train_svm=True)
