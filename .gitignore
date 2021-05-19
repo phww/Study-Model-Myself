@@ -215,4 +215,4 @@ fabric.properties
 *.pkl
 *.pth
 #
-./R-CNN/region
+./R-CNN/region/*.jpg
