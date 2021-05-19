@@ -6,7 +6,6 @@
 # @File : train.py
 # @desc :
 import time
-
 import torch
 import torch.nn as nn
 from torchvision.transforms import Compose, ToPILImage, ToTensor, \
@@ -25,7 +24,7 @@ from utils.template import TemplateModel
 # 超参数
 BATCH_SIZE = 120
 LEARNING_RATE = 3e-4
-EPOCHS = 3
+EPOCHS = 10
 transforms = Compose([ToPILImage(),
                       # 概率水平翻转、垂直翻转、和随机旋转
                       RandomHorizontalFlip(p=0.5),
@@ -138,7 +137,7 @@ class Trainer(TemplateModel):
 def main(train_CNN=True, train_svm=True):
     start = time.time()
     # 如果需要继续训练，model_path为需要继续训练的model路径
-    model_path = "./check_point/best.pth"  # "./check_point/best.pth"
+    model_path = None  # "./check_point/best.pth"
     trainer = Trainer()
     trainer.check_init()
     if model_path:
@@ -152,7 +151,7 @@ def main(train_CNN=True, train_svm=True):
             trainer.train_loop()
             trainer.eval(save_per_eval=True)
 
-        # 训练svm分类器,先训练好cnn后.再使用最好的cnn训练svm分类器即可
+    # 训练svm分类器,先训练好cnn后.再使用最好的cnn训练svm分类器即可
     if train_svm:
         print("训练svm")
         trainSvm(trainer)
