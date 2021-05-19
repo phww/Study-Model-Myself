@@ -129,7 +129,7 @@ def main(img_path, model_path, svm):
 
 
 if __name__ == "__main__":
-    img_path = "./test3.jpg"
+    img_path = "./test_img/test3.jpg"
     model_path = "./check_point/best.pth"
     svm_path = "./check_point/svm_cls.pkl"
     with open(svm_path, "rb") as f:
