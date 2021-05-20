@@ -36,7 +36,8 @@ def selectiveSearch(img):
 
 def generateBbox(img, rects, transforms, model, svm, info):
     """
-    使用训练好的CNN模型，从selective search算法中生成的候选区域中找出包含目标的bbox
+    使用训练好的CNN模型和SVM分类器，从selective search算法中生成的候选区域中找出包含目标的bbox，
+    并使用NMS进一步减少重复的Bbox
     Args:
         img: np.array
         rects: np.array shape “N,4”
@@ -44,7 +45,9 @@ def generateBbox(img, rects, transforms, model, svm, info):
         svm: 如果非None，使用svm分类器对候选区域进行预测。否则使用CNN网络最后的输出（shape"N, 1"），经过sigmoid处理后做预测
     Returns:
         select_bbox：list shape “N，4”
-        经过非极大值抑制后的最终bbox
+            经过非极大值抑制后的最终bbox
+        info：list
+            用于给之后绘制的图片命名
     """
     bbox = []
     scores = []
