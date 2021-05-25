@@ -189,4 +189,4 @@ def main(train_CNN=True, train_svm=True):
 
 
 if __name__ == '__main__':
-    main(train_CNN=False, train_svm=True)
+    main(train_CNN=True, train_svm=True)
