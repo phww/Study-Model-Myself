@@ -249,3 +249,5 @@ fabric.properties
 *.pth
 # R-CNN
 ./R-CNN/region/*.jpg
+# VIT
+/VisionTransformer/runs/
