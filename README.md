@@ -9,7 +9,7 @@ TODO：整理+上传+文档
 - Transformer
 
 ## 图片分类
-- Vision Transformer（VIT）[https://github.com/phww/Study-Model-Myself/tree/main/VisionTransformer] TODO：文档
+- [Vision Transformer（VIT）](https://github.com/phww/Study-Model-Myself/tree/main/VisionTransformer) TODO：文档
 
 ## 语义分割
 - Unet TODO：整理+上传+文档
