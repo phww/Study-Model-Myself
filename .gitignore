@@ -247,6 +247,8 @@ fabric.properties
 #模型文件
 *.pkl
 *.pth
+# 视频文件
+*.mp4
 # R-CNN
 ./R-CNN/region/*.jpg
 # VIT
