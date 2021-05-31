@@ -117,17 +117,20 @@ class RNNDecoderWithAttention(nn.Module):
         c0 = self.init_c(mean)
         return h0, c0
 
-    def forward(self, encoder_out, caption_gt, max_length=25):
+    def forward(self, encoder_out, caption_gt, caption_length):
         batch_size = encoder_out.size(0)
-        pixels = encoder_out.size(1)
         # 词嵌入
         caption_gt = caption_gt.to(dtype=torch.long)
         caption_embed = self.embedding(caption_gt)
         # 展开特征图shape “B, 14, 14, 2048”->“B, 14*14, 2048”
         encoder_out = encoder_out.view(batch_size, -1, self.encoder_dim)
+        pixels = encoder_out.size(1)
         # 初始的h0和c0
         h, c = self._init_hidden_state(encoder_out)
 
+        # 原始句子长度需要减去"<start>"token
+        decode_length = [c - 1 for c in caption_length]
+        max_length = max(decode_length)
         # LSTM
         pred_word_vec = torch.zeros(batch_size, max_length, self.vocab_size)
         att_weights = torch.zeros(batch_size, max_length, pixels)
@@ -135,23 +138,44 @@ class RNNDecoderWithAttention(nn.Module):
         for t in range(max_length):
             # 使用t-1时刻的隐藏态h与CNN提取的feature map计算attention。并使用这个att加权feature map
             # 这就是为什么可以可视化每个时刻，模型更关心feature map的哪个区域
-            att_weighted_encoder_out, att_weight = self.attention(encoder_out, h)
-            gate = self.sigmoid(self.f_beta(h))
+            batch_size_t = sum([l > t for l in decode_length])
+            att_weighted_encoder_out, att_weight = self.attention(encoder_out[:batch_size_t], h[:batch_size_t])
+            gate = self.sigmoid(self.f_beta(h[:batch_size_t]))
             att_weighted_encoder_out *= gate
             # 更新t时刻的h和"记忆细胞"c
-            h, c = self.lstm_pre_step(torch.cat([caption_embed[:, t, :], att_weighted_encoder_out], dim=1), (h, c))
+            h, c = self.lstm_pre_step(torch.cat([caption_embed[:batch_size_t, t, :], att_weighted_encoder_out], dim=1)
+                                      , (h[:batch_size_t], c[:batch_size_t]))
             # 用t时刻的h预测
             preds = self.fc(self.dropout(h))
             # 保存每个时刻的结果
-            pred_word_vec[:, t, :] = preds
-            att_weights[:, t, :] = att_weight
-        return pred_word_vec, caption_gt, att_weights
+            pred_word_vec[:batch_size_t, t, :] = preds
+            att_weights[:batch_size_t, t, :] = att_weight
+        return pred_word_vec, caption_gt, decode_length, att_weights
 
-cnn = CNNEncoder()
-attention = Attention(100, 2048, 2048)
-rnn_decoder = RNNDecoderWithAttention(att_dim=512, embed_dim=512, decoder_dim=512, vocab_size=100)
 
-h = torch.randn(32, 2048)
-# summary(cnn, (3, 512, 512), 32, "cpu")
-# summary(attention, [(196, 2048), (2048,)], 32, "cpu")
-summary(rnn_decoder, [(14 * 14, 2048), (25,)], 32, "cpu")
+class ShowAttendTell(nn.Module):
+    def __init__(self, att_dim, embed_dim, decoder_dim, vocab_size):
+        super(ShowAttendTell, self).__init__()
+        self.encoder = CNNEncoder()
+        self.decoder = RNNDecoderWithAttention(att_dim=att_dim,
+                                               embed_dim=embed_dim,
+                                               decoder_dim=decoder_dim,
+                                               vocab_size=vocab_size, )
+
+    def forward(self, inp, target, caption_length):
+        inp = inp.to("cuda")
+        target = target.to("cuda")
+        encoder_out = self.encoder(inp)
+        pred_word_vec, caption_embed, decode_length, att_weights = self.decoder(encoder_out, target, caption_length)
+        return pred_word_vec, caption_embed, decode_length, att_weights
+
+
+if __name__ == "__name__":
+    cnn = CNNEncoder()
+    attention = Attention(100, 2048, 2048)
+    rnn_decoder = RNNDecoderWithAttention(att_dim=512, embed_dim=512, decoder_dim=512, vocab_size=100)
+
+    h = torch.randn(32, 2048)
+    # summary(cnn, (3, 512, 512), 32, "cpu")
+    # summary(attention, [(196, 2048), (2048,)], 32, "cpu")
+    summary(rnn_decoder, [(14 * 14, 2048), (25,)], 32, "cpu")
