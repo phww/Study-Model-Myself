@@ -40,9 +40,9 @@ void getFiles(const string &root, vector<string> &files) {
 	  // 相当于将命令下使用ls展示出来的文件中除了. 和 ..全部保存在files中
 	  // 当然下面可以写各种字符串的筛选逻辑，比如只要后缀有.jpg图片
 	  if (strcmp(ptr->d_name, ".") != 0 && strcmp(ptr->d_name, "..") != 0) {
-//		if (strstr(ptr->d_name, ".jpg")) {
+		if (strstr(ptr->d_name, ".mp4")) {
 		files.push_back(sub_file);
-//		}
+		}
 	  } // 当前文件为文件夹(4)类型，那就以当前文件为root进行递归吧！
 	} else if (ptr->d_type == 4) {
 	  // 同样下面也可以写文件夹名字的筛选逻辑，比如root/下有train，test文件夹，只遍历train文件夹内的文件

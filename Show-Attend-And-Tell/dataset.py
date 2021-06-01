@@ -37,16 +37,19 @@ class MyCaptionDataset(Dataset):
         if self.transforms is not None:
             img = self.transforms(img)
 
-        # 按下标索引图片的描述，ground truth
+        # 按下标索引图片的描述/caption，ground truth
         caption = []
+        # 每个图片有5个caption，随机选一个
         sen_id = random.choice(range(5))
         for i, text_dict in enumerate(self.text_dicts):
+            # 按图片名暴力搜索对应的caption
             if text_dict["video_id"] in img_name and text_dict["sen_id"] == sen_id:
                 caption = text_dict["caption"]
                 break
         tokens = nltk.tokenize.word_tokenize(str(caption).lower())
         target = []
         target.append(self.vocab.word2idx["<start>"])
+        # 小心append会将caption正文当做一个列表加入到target中！这里用extend更符合要求
         target.extend(self.vocab.word2idx[word] for word in tokens)
         target.append(self.vocab.word2idx["<end>"])
         target = torch.tensor(target)
@@ -63,6 +66,11 @@ def collect_fn(data):
     Args:
         data: list
             Dataset按下标索引返回的一个batch_size的对象，即长度为batch_size的(img, target)列表
+    Returns:
+        按照一个批次的caption的长度排序后的数据：
+        imgs: shape"B 3 224 224"
+        targets: 经过Vocab编码和填充过后的caption shape"B max_length"
+        lengths: caption的原始长度。包含<start>和<end>
     """
     # 先按target的长度从大到小排序data
     data.sort(key=lambda x: len(x[1]), reverse=True)
@@ -71,17 +79,32 @@ def collect_fn(data):
     imgs = torch.stack(imgs, dim=0)
     # caption以最长的语句为标准，因为定义了"<pad>"字符的idx为0。在不够长度的在句子后面填0，
     lengths = [len(caption) for caption in captions]
-    max_length = max(lengths)
-    targets = torch.zeros(len(captions), max_length).long()
-    for i, caption in enumerate(captions):
-        cur_len = lengths[i]
-        targets[i, :cur_len] = caption[:cur_len]
+    # 用Pytorch提供的API填充语句
+    targets = torch.nn.utils.rnn.pad_sequence(captions, batch_first=True, padding_value=0)
+
+    # 自己写也很容易
+    # max_length = max(lengths)
+    # targets = torch.zeros(len(captions), max_length).long()
+    # for i, caption in enumerate(captions):
+    #     cur_len = lengths[i]
+    #     targets[i, :cur_len] = caption[:cur_len]
+
     return imgs, targets, lengths
 
 
 def get_loader(vocab_path, image_root, caption_path, batch_size, transforms):
+    """
+    返回数据集的dataloader
+    Args:
+        vocab_path: 预处理得到的字典文件path.格式为pkl
+        image_root: 预处理视频得到的关键帧图片的root
+        caption_path: 原始的caption文件。格式为json
+
+    Returns:
+        dataloader:dataset的迭代器，每次迭代返回一个批次的imgs, targets, lengths
+    """
     data_set = MyCaptionDataset(vocab_path, image_root, caption_path, transforms=transforms)
-    data_loader = DataLoader(data_set, batch_size, shuffle=True, pin_memory=True, collate_fn=collect_fn)
+    data_loader = DataLoader(data_set, batch_size, shuffle=True, pin_memory=True, collate_fn=collect_fn, num_workers=6)
     return data_loader
 
 

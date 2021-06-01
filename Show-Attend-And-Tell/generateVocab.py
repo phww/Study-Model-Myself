@@ -47,6 +47,7 @@ def buildVocab(original_text_path="./video/video_demo/demo.json", threshold=0):
         words = [word for word, cnt in counter.items() if cnt > threshold]
         # 几个基础的特殊符号
         vocab = Vocabulary()
+        # 一定要第一个加<pad>保证<pad>对应的索引为0.其他字符随意
         vocab.addWord("<pad>")
         vocab.addWord("<start>")
         vocab.addWord("<end>")
@@ -62,7 +63,7 @@ if __name__ == "__main__":
     vocab = buildVocab()
     with open("./video/vocab.pkl", "wb") as f:
         pickle.dump(vocab, f)
-        print("保存vocab：./video/vocab.pkl")
+        print("\n", "保存vocab：./video/vocab.pkl")
     # word2idx = vocab.word2idx
     # for key, value in word2idx.items():
     #     print(key, " ", value)

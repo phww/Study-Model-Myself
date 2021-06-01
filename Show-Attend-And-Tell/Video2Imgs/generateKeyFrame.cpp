@@ -39,7 +39,7 @@ double autoThreshold(vector<double>& nums) {
 
 int main() {
   vector<string> video_paths;
-  getFiles("../video", video_paths);
+  getFiles("../video/video_demo", video_paths);
   cout << "待处理视频数：" << video_paths.size() << endl;
   for (int i = 0; i < video_paths.size(); i++) {
 	cout << "处理视频：" << i + 1 << " ";

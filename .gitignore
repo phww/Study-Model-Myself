@@ -253,3 +253,4 @@ fabric.properties
 ./R-CNN/region/*.jpg
 # VIT
 /VisionTransformer/runs/
+*.idea/*
