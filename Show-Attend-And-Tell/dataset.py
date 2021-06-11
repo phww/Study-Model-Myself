@@ -7,11 +7,13 @@
 # @desc : 自己定义的dataset
 import random
 import nltk
+import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 import json
 import pickle
 import os
+from tqdm.auto import tqdm
 from PIL import Image
 from generateVocab import Vocabulary
 
@@ -47,10 +49,14 @@ class MyCaptionDataset(Dataset):
                 caption = text_dict["caption"]
                 break
         tokens = nltk.tokenize.word_tokenize(str(caption).lower())
+
         target = []
         target.append(self.vocab.word2idx["<start>"])
-        # 小心append会将caption正文当做一个列表加入到target中！这里用extend更符合要求
-        target.extend(self.vocab.word2idx[word] for word in tokens)
+        # 当generateVocab.py里面设置词频阈值大于0时。语料库中的一些词不会被记录到字典中。因此设置其为<unk>
+        for word in tokens:
+            if word not in self.vocab.word2idx.keys():
+                word = "<unk>"
+            target.append(self.vocab.word2idx[word])
         target.append(self.vocab.word2idx["<end>"])
         target = torch.tensor(target)
         return img, target
@@ -111,16 +117,29 @@ def get_loader(vocab_path, image_root, caption_path, batch_size, transforms):
 if __name__ == "__main__":
     # test
     import matplotlib.pyplot as plt
-    from torchvision.transforms import ToTensor
+    from torchvision.transforms import ToTensor, Resize, Compose
 
-    vocab_path = "./video/vocab.pkl"
-    image_root = "./generateImgs"
-    caption_path = "./video/video_demo/demo.json"
-    data_loader = get_loader(vocab_path, image_root, caption_path, batch_size=5, transforms=ToTensor())
-    for imgs, targets, lengths in data_loader:
-        targets = targets.tolist()
-        plt.imshow(imgs[2].permute(1, 2, 0))
-        plt.show()
-        for word in targets[2]:
-            print(data_loader.dataset.vocab.idx2word[word], end=" ")
-        break
+    transforms = Compose([Resize((224, 224)),
+                          ToTensor()])
+    vocab_path = "/home/ph/Dataset/VideoCaption/vocab.pkl"
+    image_root = "/home/ph/Dataset/VideoCaption/generateImgs/train"
+    caption_path = "/home/ph/Dataset/VideoCaption/info.json"
+    data_loader = get_loader(vocab_path, image_root, caption_path, batch_size=200, transforms=transforms)
+    cnt = 0
+    mean = np.zeros((1, 3))
+    std = np.zeros((1, 3))
+    for imgs, targets, lengths in tqdm(data_loader):
+        cnt += 1
+        imgs = imgs.numpy()
+        mean += imgs.mean(axis=(0, 2, 3))
+        std += imgs.std(axis=(0, 2, 3))
+    mean /= cnt
+    std /= cnt
+    print(mean)  # 0.43710339 0.41183448 0.39289876
+    print(std)  # 0.27540463 0.27135348 0.27471914
+    #     targets = targets.tolist()
+    #     plt.imshow(imgs[2].permute(1, 2, 0))
+    #     plt.show()
+    #     for word in targets[2]:
+    #         print(data_loader.dataset.vocab.idx2word[word], end=" ")
+    #     break

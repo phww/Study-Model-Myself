@@ -60,10 +60,15 @@ def buildVocab(original_text_path="./video/video_demo/demo.json", threshold=0):
 
 
 if __name__ == "__main__":
-    vocab = buildVocab()
-    with open("./video/vocab.pkl", "wb") as f:
+    # threshold:字典大小 == 0 : 4496  1 : 2801  2 : 2137  3 : 1737  4 : 1481  5 : 1291
+    # 感觉词频阈值为0，字典太大了不好训练。最后选择阈值为2
+    vocab = buildVocab(original_text_path="/home/ph/Dataset/VideoCaption/info.json", threshold=0)
+    save_path = "/home/ph/Dataset/VideoCaption/vocab.pkl"
+    with open(save_path, "wb") as f:
         pickle.dump(vocab, f)
-        print("\n", "保存vocab：./video/vocab.pkl")
+        print("\n", f"保存vocab：{save_path}")
+
+    # 打印字典
     # word2idx = vocab.word2idx
     # for key, value in word2idx.items():
     #     print(key, " ", value)

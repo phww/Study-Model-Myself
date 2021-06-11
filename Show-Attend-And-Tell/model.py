@@ -115,7 +115,7 @@ class RNNDecoderWithAttention(nn.Module):
         self.fc.bias.data.fill_(0)
         self.fc.weight.data.uniform_(-0.1, 0.1)
 
-    def _init_hidden_state(self, encoder_out):
+    def init_hidden_state(self, encoder_out):
         """
         RNN初始状态的h0与c0定义为CNN模块输出的feature map
         在第二个维度上的平均值，并且用线性映射将特征向量的维
@@ -153,7 +153,7 @@ class RNNDecoderWithAttention(nn.Module):
         encoder_out = encoder_out.view(batch_size, -1, self.encoder_dim)
         pixels = encoder_out.size(1)  # 196
         # 初始的h0和c0
-        h, c = self._init_hidden_state(encoder_out)  # "B, encoder_dim"
+        h, c = self.init_hidden_state(encoder_out)  # "B, encoder_dim"
 
         # 原始句子长度需要减去"<start>"token
         decode_length = [c - 1 for c in captions_length]

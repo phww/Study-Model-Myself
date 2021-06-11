@@ -9,15 +9,16 @@ import matplotlib.pyplot as plt
 import nltk.translate.bleu_score
 import torch
 import torch.nn as nn
-from torchvision.transforms import Compose, ToTensor, RandomHorizontalFlip, Resize
+from torchvision.transforms import Compose, ToTensor, RandomHorizontalFlip, Resize, Normalize
 from torch.utils.tensorboard import SummaryWriter
 from torch.nn.utils.rnn import pack_padded_sequence
 from dataset import get_loader
 from model import ShowAttendTell, CNNEncoder, RNNDecoderWithAttention
 from utils.template import TemplateModel
 from generateVocab import Vocabulary
+import pickle
 
-global model, optimizer, loss_fn, train_loader, test_loader
+global vocab
 
 
 def translate2Sentence(words_vec, vocab, reference):
@@ -37,7 +38,8 @@ def translate2Sentence(words_vec, vocab, reference):
 
 
 class Trainer(TemplateModel):
-    def __init__(self, ):
+    def __init__(self, loss_fn, train_loader, test_loader,
+                 encoder_optimizer, decoder_optimizer, encoder, decoder):
         super(Trainer, self).__init__()
         # tensorboard
         self.writer = SummaryWriter()
@@ -50,9 +52,12 @@ class Trainer(TemplateModel):
         self.test_loader = test_loader
         # 训练时print的间隔
         self.log_per_step = 5
+        self.ckpt_dir = "./check_point5"
+        #
+        self.lr_scheduler_type = "loss"  # None "metric" "loss"
 
     # 重载模板中的train_loss_per_batch和metric方法
-    def train_loss_per_batch(self, batch):
+    def loss_per_batch(self, batch):
         # 拆包data_loader返回的对象
         imgs, targets, lengths = batch
         imgs = imgs.to(self.device, dtype=torch.float)
@@ -71,15 +76,13 @@ class Trainer(TemplateModel):
         imgs, targets, lengths = batch
         imgs = imgs.to(self.device)
         targets = targets.to(self.device, dtype=torch.long)
-        imgs = encoder(imgs)
-        pred_words_vec, caption_embed, decode_length, att_weights = decoder(imgs, targets, lengths)
+        imgs = self.model_list[0](imgs)
+        pred_words_vec, caption_embed, decode_length, att_weights = self.model_list[1](imgs, targets, lengths)
         pred_words_vec = pred_words_vec.argmax(dim=2)
-        hypothesis = translate2Sentence(pred_words_vec.tolist(), vocab=self.train_loader.dataset.vocab, reference=False)
-        reference = translate2Sentence(caption_embed.tolist(), vocab=self.train_loader.dataset.vocab, reference=True)
-        for i in range(1):
-            print(reference[i])
-            print(hypothesis[i])
-            print("~" * 50)
+        hypothesis = translate2Sentence(pred_words_vec.tolist(), vocab=vocab, reference=False)
+        reference = translate2Sentence(caption_embed.tolist(), vocab=vocab, reference=True)
+        self.writer.add_text("hypothesis", text_string=str(hypothesis[0]), global_step=self.global_step_eval)
+        self.writer.add_text("reference", text_string=str(reference[0]), global_step=self.global_step_eval)
         scores = self.metric(hypothesis, reference)
         return scores
 
@@ -94,38 +97,52 @@ class Trainer(TemplateModel):
         return scores
 
 
-def main(continue_train=False):
-    global model, optimizer, loss_fn, train_loader, test_loader, encoder_optimizer, decoder_optimizer, encoder, decoder
-    vocab_path = "./video/vocab.pkl"
-    image_root = "./generateImgs"
-    caption_path = "./video/video_demo/demo.json"
-    BATCH_SIZE = 23
-    TRANSFORMS = Compose([Resize((224, 224)),
+def main(continue_model=None):
+    global vocab
+    vocab_path = "/home/ph/Dataset/VideoCaption/vocab.pkl"
+    vocab = Vocabulary()
+    with open(vocab_path, "rb") as f:
+        vocab = pickle.load(f)
+    print("vocab_size:", len(vocab))
+    image_root_train = "/home/ph/Dataset/VideoCaption/generateImgs/train"
+    image_root_val = "/home/ph/Dataset/VideoCaption/generateImgs/val"
+    caption_path = "/home/ph/Dataset/VideoCaption/info.json"
+    epochs = 100
+    batch_size_train = 200
+    batch_size_val = 50
+    transforms = Compose([Resize((224, 224)),
                           RandomHorizontalFlip(),
-                          ToTensor()])
-    LR = 1e-4
-    train_loader = test_loader = get_loader(vocab_path, image_root,
-                                            caption_path, batch_size=BATCH_SIZE,
-                                            transforms=TRANSFORMS)
-
+                          ToTensor(),
+                          Normalize([0.43710339, 0.41183448, 0.39289876],
+                                    [0.27540463, 0.27135348, 0.27471914])])
+    encoder_init_lr = 1e-4
+    decoder_init_lr = 1e-4
+    train_loader = get_loader(vocab_path, image_root_train,
+                              caption_path, batch_size=batch_size_train,
+                              transforms=transforms)
+    val_loader = get_loader(vocab_path, image_root_val,
+                            caption_path, batch_size=batch_size_val,
+                            transforms=transforms)
     model_config = {"att_dim": 512,
                     "decoder_dim": 512,
                     "embed_dim": 512,
-                    "vocab_size": len(train_loader.dataset.vocab)}
+                    "vocab_size": len(vocab)}
     encoder = CNNEncoder()
     decoder = RNNDecoderWithAttention(**model_config)
-    encoder_optimizer = torch.optim.Adam(params=encoder.parameters(), lr=1e-4)
-    decoder_optimizer = torch.optim.Adam(params=decoder.parameters(), lr=4e-4)
+    encoder_optimizer = torch.optim.Adam(params=encoder.parameters(), lr=encoder_init_lr)
+    decoder_optimizer = torch.optim.Adam(params=decoder.parameters(), lr=decoder_init_lr)
     loss_fn = nn.CrossEntropyLoss()
-    trainer = Trainer()
-    trainer.check_init()
-    if continue_train:
-        trainer.load_state("./check_point/epoch7.pth")
+    trainer = Trainer(loss_fn, train_loader, val_loader,
+                      encoder_optimizer, decoder_optimizer,
+                      encoder, decoder)
+    trainer.check_init(clean_log=True)
+    if continue_model is not None:
+        trainer.load_state(continue_model)
 
-    for epoch in range(75):
+    for epoch in range(epochs):
         trainer.train_loop()
         trainer.eval(save_per_epochs=10)
 
 
 if __name__ == '__main__':
-    main(continue_train=False)
+    main()

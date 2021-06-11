@@ -39,7 +39,7 @@ double autoThreshold(vector<double>& nums) {
 
 int main() {
   vector<string> video_paths;
-  getFiles("../video/video_demo", video_paths);
+  getFiles("/home/ph/Dataset/VideoCaption/test", video_paths);
   cout << "待处理视频数：" << video_paths.size() << endl;
   for (int i = 0; i < video_paths.size(); i++) {
 	cout << "处理视频：" << i + 1 << " ";
@@ -64,7 +64,7 @@ int main() {
 	  // 先获取前两帧
 	  if (j == 0) {
 		cap >> frame1;
-		string name = "../generateImgs/" + video_name + "-" + to_string(j) + ".jpg";
+		string name = "/home/ph/Dataset/VideoCaption/generateImgs/test/" + video_name + "-" + to_string(j) + ".jpg";
 		imwrite(name, frame1);
 		cout << "保存第" << j << "帧" << " ";
 		continue;
@@ -99,14 +99,17 @@ int main() {
 	// 从视频的第二帧开始，根据全部差分结果和自适应阈值来确定关键帧
 	double threshold = autoThreshold(all_scores);
 	Mat key_frame;
+	int cnt = 0;
 	for (int k = 2; k <= n_frame; k++) {
 	  if (all_scores[k - 1] > threshold) {
 		cap.set(CAP_PROP_POS_FRAMES, k);
 		cap >> key_frame;
-		if (key_frame.empty()) {
+		k++; // 一般来说第k帧和第k+1帧差不多，只要一个就行了
+		cnt++; // 对一个视频最多只要8帧
+		if (key_frame.empty() || cnt > 8) {
 		  break;
 		}
-		string name = "../generateImgs/" + video_name + "-" + to_string(k) + ".jpg";
+		string name = "/home/ph/Dataset/VideoCaption/generateImgs/test/" + video_name + "-" + to_string(k) + ".jpg";
 		imwrite(name, key_frame);
 		cout << "保存第" << k << "帧" << " ";
 	  }
