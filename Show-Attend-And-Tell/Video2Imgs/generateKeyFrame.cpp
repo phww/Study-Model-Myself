@@ -38,8 +38,10 @@ double autoThreshold(vector<double>& nums) {
 }
 
 int main() {
+  string dataset_type = "test"; // train or test
+  string video_root = "/home/ph/Dataset/VideoCaption/";
   vector<string> video_paths;
-  getFiles("/home/ph/Dataset/VideoCaption/test", video_paths);
+  getFiles(video_root + dataset_type, video_paths);
   cout << "待处理视频数：" << video_paths.size() << endl;
   for (int i = 0; i < video_paths.size(); i++) {
 	cout << "处理视频：" << i + 1 << " ";
@@ -64,7 +66,7 @@ int main() {
 	  // 先获取前两帧
 	  if (j == 0) {
 		cap >> frame1;
-		string name = "/home/ph/Dataset/VideoCaption/generateImgs/test/" + video_name + "-" + to_string(j) + ".jpg";
+		string name = video_root + "generateImgs/" + dataset_type + "/" + video_name + "-" + to_string(j) + ".jpg";
 		imwrite(name, frame1);
 		cout << "保存第" << j << "帧" << " ";
 		continue;
@@ -89,7 +91,7 @@ int main() {
 		score1 += compareHist(A[k], B[k], HISTCMP_INTERSECT);
 		score2 += compareHist(B[k], C[k], HISTCMP_INTERSECT);
 	  }
-	  all_scores.push_back(abs(score2 - score1)/3);
+	  all_scores.push_back(abs(score2 - score1) / 3);
 
 	  // 以三帧为窗口，滑动窗口计算整个视频的差分结果
 	  frame2.copyTo(frame1);
@@ -109,10 +111,21 @@ int main() {
 		if (key_frame.empty() || cnt > 8) {
 		  break;
 		}
-		string name = "/home/ph/Dataset/VideoCaption/generateImgs/test/" + video_name + "-" + to_string(k) + ".jpg";
+		string name = video_root + "generateImgs/" + dataset_type + "/" + video_name + "-" + to_string(k) + ".jpg";
 		imwrite(name, key_frame);
 		cout << "保存第" << k << "帧" << " ";
 	  }
+	}
+
+	// 凑不够8帧就用第0帧补充
+	while (cnt < 8) {
+	  cap.set(CAP_PROP_POS_FRAMES, 0);
+	  cap >> key_frame;
+	  string name = video_root + "generateImgs/" + dataset_type + "/"
+		  + video_name + "-" + to_string(0) + to_string(cnt) + ".jpg";
+	  imwrite(name, key_frame);
+	  cout << "保存第" << 0 << "帧" << " ";
+	  cnt++;
 	}
 	cout << endl;
 	cap.release();

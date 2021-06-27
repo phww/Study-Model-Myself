@@ -7,7 +7,7 @@
 # @desc : resnet101 + attention + LSTM
 import torch
 import torch.nn as nn
-from torchvision.models import resnet101
+from torchvision.models import resnet101, vgg16_bn
 from torchsummary import summary
 from einops import rearrange
 
@@ -15,29 +15,46 @@ from einops import rearrange
 class CNNEncoder(nn.Module):
     """CNN提取图片的特征，使用fine turn的resnet101"""
 
-    def __init__(self, encode_image_size=14, fine_turn_layer=-3):
+    def __init__(self, encode_image_size=14, fine_turn_layer=-3, cnn_type="resnet"):
         super(CNNEncoder, self).__init__()
-        resnet = resnet101(pretrained=True)
-        # 不需要resnet101的最后两层
-        modules = list(resnet.children())[:-2]
+        if cnn_type == "resnet":
+            resnet = resnet101(pretrained=True)
+            # 不需要resnet101的最后两层
+            modules = list(resnet.children())[:-2]
+            # self._fine_turn(fine_turn_layer)
+            self.n_channels = 2048
+
+        elif cnn_type == "vgg":
+            vgg = vgg16_bn(pretrained=True)
+            modules = list(vgg.children())[:-2]
+            self.n_channels = 512
         self.extract_feat = nn.Sequential(*modules)
         # resnet倒数第二层的输出形状为（b，2048， 2， 2）需要变为（b，2048， 14， 14）
         self.pooling = nn.AdaptiveAvgPool2d(output_size=(encode_image_size, encode_image_size))
         # fine turn最后3层，即特征向量长度为2048的卷积层
-        self._fine_turn(fine_turn_layer)
 
-    def forward(self, images):
+    def forward(self, images, mean_fusion=True):
         """
         Args:
-            images: shape"B, 3, 224, 224"
-
+            images: shape"B, 3xk, 224, 224", 3xk代表一个视频提取了k帧图片，k=1时代表不融合多帧图片
+            mean_fusion: 融合多帧图片，融合后，shape"B, 3, 224, 224"
         Returns:
             output: CNN提取的feature map. shape"B, 14, 14, 2048"
 
         """
-        features = self.extract_feat(images)
+        # 用CNN提取特征k帧的特征
+        k = images.size(1) // 3
+        features = self.extract_feat(images[:, :3, :, :]).unsqueeze(dim=1)  # B, 1, 2048, 2, 2
+        for i in range(1, k):
+
+            feature = self.extract_feat(images[:, i * 3:(i + 1) * 3, :, :]).unsqueeze(dim=1)
+            features = torch.cat([features, feature], dim=1)  # B, k, 2048, 2, 2
+        # 取平均，融合特征
+        if mean_fusion:
+            features = features.mean(dim=1).squeeze(dim=1)  # B, 2048, 2, 2
+
+        # 调整形状为(B, 14, 14, 2048)
         features_2048x14x14 = self.pooling(features)
-        # 调整形状为(b, 14, 14, 2048)
         output = rearrange(features_2048x14x14, "B N H W -> B H W N")
         return output
 
@@ -199,12 +216,12 @@ class ShowAttendTell(nn.Module):
         return pred_word_vec, caption_gt, decode_length, att_weights
 
 
-if __name__ == "__name__":
-    cnn = CNNEncoder()
+if __name__ == "__main__":
+    cnn = CNNEncoder(cnn_type="vgg")
     attention = Attention(100, 2048, 2048)
     rnn_decoder = RNNDecoderWithAttention(att_dim=512, embed_dim=512, decoder_dim=512, vocab_size=100)
 
     h = torch.randn(32, 2048)
-    # summary(cnn, (3, 512, 512), 32, "cpu")
+    summary(cnn, (3 * 8, 512, 512), 10, "cpu")
     # summary(attention, [(196, 2048), (2048,)], 32, "cpu")
-    summary(rnn_decoder, [(14 * 14, 2048), (25,)], 32, "cpu")
+    # summary(rnn_decoder, [(14 * 14, 2048), (25,)], 32, "cpu")

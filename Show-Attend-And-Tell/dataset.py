@@ -17,10 +17,24 @@ from tqdm.auto import tqdm
 from PIL import Image
 from generateVocab import Vocabulary
 
+# @File : dataset.py
+# @desc : 自己定义的dataset
+import random
+import nltk
+import numpy as np
+import torch
+from torch.utils.data import Dataset, DataLoader
+import json
+import pickle
+import os
+from tqdm.auto import tqdm
+from PIL import Image
+from generateVocab import Vocabulary
 
-class MyCaptionDataset(Dataset):
-    def __init__(self, vocab_path, image_root, caption_path, transforms, max_length=20):
-        super(MyCaptionDataset, self).__init__()
+
+class MyCaptionDatasetRaw(Dataset):
+    def __init__(self, vocab_path, image_root, caption_path, transforms):
+        super(MyCaptionDatasetRaw, self).__init__()
         # 读取各种文件
         self.vocab = Vocabulary()
         with open(vocab_path, "rb") as f:
@@ -30,7 +44,6 @@ class MyCaptionDataset(Dataset):
         with open(caption_path, "rb") as f:
             self.text_dicts = json.load(f)["sentences"]
         self.transforms = transforms
-        self.max_length = max_length
 
     def __getitem__(self, idx):
         # 按下标索引图片
@@ -52,6 +65,8 @@ class MyCaptionDataset(Dataset):
 
         target = []
         target.append(self.vocab.word2idx["<start>"])
+        # 小心append会将caption正文当做一个列表加入到target中！这里用extend更符合要求
+        target.extend(self.vocab.word2idx[word] for word in tokens)
         # 当generateVocab.py里面设置词频阈值大于0时。语料库中的一些词不会被记录到字典中。因此设置其为<unk>
         for word in tokens:
             if word not in self.vocab.word2idx.keys():
@@ -65,6 +80,60 @@ class MyCaptionDataset(Dataset):
         return len(self.img_paths)
 
 
+class MyCaptionDatasetFusion(Dataset):
+    def __init__(self, vocab_path, image_root, caption_path, transforms, k=9):
+        super(MyCaptionDatasetFusion, self).__init__()
+        self.k = k
+        # 读取各种文件
+        self.vocab = Vocabulary()
+        with open(vocab_path, "rb") as f:
+            self.vocab = pickle.load(f)
+        self.img_root = image_root
+        self.img_paths = os.listdir(image_root)
+        sorted(self.img_paths)  # 先排序图片路径
+        with open(caption_path, "rb") as f:
+            self.text_dicts = json.load(f)["sentences"]
+        self.transforms = transforms
+
+    def __getitem__(self, idx):
+        # 按下标索引视频提取的所有帧
+        video_id = self.img_paths[idx].split("-")[0]  # G_16000-1.jpg -> G_16000
+        img = Image.open(os.path.join(self.img_root, self.img_paths[idx * self.k])).convert('RGB')
+        if self.transforms is not None:
+            imgs = self.transforms(img)  # 3, 224, 224
+        for i in range(1, self.k):
+            img_name = self.img_paths[idx * self.k + i]
+            img = Image.open(os.path.join(self.img_root, img_name)).convert('RGB')
+            if self.transforms is not None:
+                img = self.transforms(img)
+                imgs = torch.cat([imgs, img], dim=0)  # 3*k, 224, 224
+
+        # 按下标索引图片的描述/caption，ground truth
+        caption = []
+        # 每个视频有5个caption，随机选一个
+        sen_id = random.choice(range(5))
+        for i, text_dict in enumerate(self.text_dicts):
+            # 按图片名暴力搜索对应的caption
+            if text_dict["video_id"] == video_id and text_dict["sen_id"] == sen_id:
+                caption = text_dict["caption"]
+                break
+        tokens = nltk.tokenize.word_tokenize(str(caption).lower())
+
+        target = []
+        target.append(self.vocab.word2idx["<start>"])
+        # 当generateVocab.py里面设置词频阈值大于0时。语料库中的一些词不会被记录到字典中。因此设置其为<unk>
+        for word in tokens:
+            if word not in self.vocab.word2idx.keys():
+                word = "<unk>"
+            target.append(self.vocab.word2idx[word])
+        target.append(self.vocab.word2idx["<end>"])
+        target = torch.tensor(target)
+        return imgs, target
+
+    def __len__(self):
+        return len(self.img_paths) // self.k
+
+
 def collect_fn(data):
     """
     因为caption的长短不一，而Dataset要求数据的形状是一样的
@@ -74,7 +143,7 @@ def collect_fn(data):
             Dataset按下标索引返回的一个batch_size的对象，即长度为batch_size的(img, target)列表
     Returns:
         按照一个批次的caption的长度排序后的数据：
-        imgs: shape"B 3 224 224"
+        imgs: shape"B 3*k 224 224"
         targets: 经过Vocab编码和填充过后的caption shape"B max_length"
         lengths: caption的原始长度。包含<start>和<end>
     """
@@ -98,7 +167,7 @@ def collect_fn(data):
     return imgs, targets, lengths
 
 
-def get_loader(vocab_path, image_root, caption_path, batch_size, transforms):
+def get_loader(vocab_path, image_root, caption_path, batch_size, transforms, use_fusion=True):
     """
     返回数据集的dataloader
     Args:
@@ -109,7 +178,10 @@ def get_loader(vocab_path, image_root, caption_path, batch_size, transforms):
     Returns:
         dataloader:dataset的迭代器，每次迭代返回一个批次的imgs, targets, lengths
     """
-    data_set = MyCaptionDataset(vocab_path, image_root, caption_path, transforms=transforms)
+    if use_fusion:
+        data_set = MyCaptionDatasetFusion(vocab_path, image_root, caption_path, transforms=transforms)
+    else:
+        data_set = MyCaptionDatasetRaw(vocab_path, image_root, caption_path, transforms=transforms)
     data_loader = DataLoader(data_set, batch_size, shuffle=True, pin_memory=True, collate_fn=collect_fn, num_workers=6)
     return data_loader
 
@@ -124,22 +196,24 @@ if __name__ == "__main__":
     vocab_path = "/home/ph/Dataset/VideoCaption/vocab.pkl"
     image_root = "/home/ph/Dataset/VideoCaption/generateImgs/train"
     caption_path = "/home/ph/Dataset/VideoCaption/info.json"
-    data_loader = get_loader(vocab_path, image_root, caption_path, batch_size=200, transforms=transforms)
+    data_loader = get_loader(vocab_path, image_root, caption_path, batch_size=10, transforms=transforms,
+                             use_fusion=False)
     cnt = 0
     mean = np.zeros((1, 3))
     std = np.zeros((1, 3))
-    for imgs, targets, lengths in tqdm(data_loader):
+    for imgs, targets, lengths in data_loader:
         cnt += 1
         imgs = imgs.numpy()
-        mean += imgs.mean(axis=(0, 2, 3))
-        std += imgs.std(axis=(0, 2, 3))
-    mean /= cnt
-    std /= cnt
-    print(mean)  # 0.43710339 0.41183448 0.39289876
-    print(std)  # 0.27540463 0.27135348 0.27471914
-    #     targets = targets.tolist()
-    #     plt.imshow(imgs[2].permute(1, 2, 0))
-    #     plt.show()
-    #     for word in targets[2]:
-    #         print(data_loader.dataset.vocab.idx2word[word], end=" ")
-    #     break
+        print(imgs.shape)
+        # mean += imgs.mean(axis=(0, 2, 3))
+        # std += imgs.std(axis=(0, 2, 3))
+        # mean /= cnt
+        # std /= cnt
+        # print(mean)  # 0.43710339 0.41183448 0.39289876
+        # print(std)  # 0.27540463 0.27135348 0.27471914
+        targets = targets.tolist()
+        plt.imshow(imgs[2].transpose(1, 2, 0).mean(axis=-1), "gray")
+        for word in targets[0]:
+            print(data_loader.dataset.vocab.idx2word[word], end=" ")
+        plt.show()
+        break

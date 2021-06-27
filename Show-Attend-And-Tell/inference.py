@@ -18,6 +18,7 @@ from model import CNNEncoder, RNNDecoderWithAttention
 from generateVocab import Vocabulary
 from tqdm.auto import tqdm
 import pprint
+
 global encoder, decoder
 transforms = Compose([Resize((224, 224)),
                       ToTensor(),
@@ -35,24 +36,20 @@ def getModel(model_t_path):
     model_config = {"att_dim": 512,
                     "decoder_dim": 512,
                     "embed_dim": 512,
-                    "vocab_size": vocab_size}
-    encoder = CNNEncoder()
+                    "vocab_size": vocab_size,
+                    "encoder_dim": 2048}
+    encoder = CNNEncoder(cnn_type="resnet")
     decoder = RNNDecoderWithAttention(**model_config)
     encoder.load_state_dict(torch.load(model_t_path)["model0"])
     decoder.load_state_dict(torch.load(model_t_path)["model1"])
     return encoder, decoder
 
 
-def inferenceOneImage(img_path, bean_width=5):
+def inferenceOneImage(imgs, bean_width=5):
     k = bean_width
     with torch.no_grad():
-        # 处理image
-        img = Image.open(img_path).convert('RGB')
-        img = transforms(img).unsqueeze(dim=0)  # 1, 3, 224, 224
-        img = img.to(device)
-
         # encoder提取特征，并预处理
-        feat = encoder(img)  # 1, 14, 14, 2048
+        feat = encoder(imgs)  # 1, 14, 14, 2048
         enc_image_size = feat.size(1)
         feat_dim = feat.size(-1)
         feat_tokens = feat.view(1, -1, feat_dim)  # 1, 14 x 14, 2048
@@ -80,13 +77,17 @@ def inferenceOneImage(img_path, bean_width=5):
         # 初始的h0，c0
         h, c = decoder.init_hidden_state(feat_tokens)
         while True:
-            print(f"step{step}")
-            print("incomplete")
-            for seq in seqs:
-                print(translate2Sentence(words_vec=[seq.cpu().numpy()], vocab=vocab, reference=False)[0])
-            print("complete")
-            for seq in complete_seqs:
-                print(translate2Sentence(words_vec=[seq], vocab=vocab, reference=False)[0])
+            # print(f"step{step}")
+            # print("incomplete")
+            # v = 1.0
+            # for i, seq in enumerate(seqs):
+            #     v += top_k_scores[i].item()
+            #     print(f"{vocab.idx2word[seq[-1].item()]}:{v}")
+            # for i, seq in enumerate(seqs):
+            #     print(translate2Sentence(words_vec=[seq.cpu().numpy()], vocab=vocab, reference=False)[0])
+            # print("complete")
+            # for seq in complete_seqs:
+            #     print(translate2Sentence(words_vec=[seq], vocab=vocab, reference=False)[0])
             embeddings = decoder.embedding(k_prev_words)  # k, 1, embed_dim
             # s，2048 和 s，enc_image_size**2
             att_weighted_encoder_out, att_weight = decoder.attention(feat_tokens, h)
@@ -115,7 +116,7 @@ def inferenceOneImage(img_path, bean_width=5):
             # 将该时刻推断出来的词和attend权重保存
             seqs = torch.cat([seqs[prev_word_inds], next_word_inds.unsqueeze(1)], dim=1)  # (s, step+1)
             # (s, step+1, enc_image_size, enc_image_size)
-            seqs_alpha = torch.cat([seqs_alpha[prev_word_inds],alpha[prev_word_inds].unsqueeze(1)], dim=1)
+            seqs_alpha = torch.cat([seqs_alpha[prev_word_inds], alpha[prev_word_inds].unsqueeze(1)], dim=1)
 
             # 如果当前推断的词不是<end>代表当前句子的推断没有完成
             incomplete_inds = [ind for ind, next_word in enumerate(next_word_inds) if
@@ -154,21 +155,30 @@ def inferenceOneImage(img_path, bean_width=5):
         return seq, alphas
 
 
-def main(img_root, model_path, bean_width=5):
+def main(img_root, model_path, bean_width=5, k=9):
     global encoder, decoder
     encoder, decoder = getModel(model_path)
     encoder.to(device).eval()
     decoder.to(device).eval()
     img_paths = os.listdir(img_root)
+    img_paths = sorted(img_paths)
     save = {"predictions": {}}
     f = open("./answer.json", "w", encoding='utf-8')
-    for img_path in tqdm(img_paths):
+    for i in tqdm(range(len(img_paths) // k)):
+        img_path = img_paths[i * k]
         # 从G-1000_8.jpg -> G-1000_8 -> G-1000
-        img_name = img_path.split(".")[0]
-        img_name = img_name.split("-")[0]
+        video_id = img_path.split(".")[0]
+        video_id = video_id.split("-")[0]
+        imgs = Image.open(os.path.join(img_root, img_path)).convert('RGB')
+        imgs = transforms(imgs).unsqueeze(dim=0)  # 1, 3, 224, 224
+        for j in range(1, k):
+            img_path = img_paths[i * k + j]
+            img = Image.open(os.path.join(img_root, img_path)).convert('RGB')
+            img = transforms(img).unsqueeze(dim=0)
+            imgs = torch.cat([imgs, img], dim=1)  # 1, 3*k, 224, 224
+        imgs = imgs.to(device)
 
-        seq, alphas = inferenceOneImage(os.path.join(img_root, img_path),
-                                        bean_width=bean_width)
+        seq, alphas = inferenceOneImage(imgs, bean_width=bean_width)
         caption = translate2Sentence(words_vec=[seq], vocab=vocab, reference=False)[0]
         # print(caption)
         save_sentence = str()
@@ -176,13 +186,15 @@ def main(img_root, model_path, bean_width=5):
             if word not in ["<start>", "<end>"]:
                 save_sentence += word
                 save_sentence += " "
-        save_inner = [{"image_id": img_name, "caption": save_sentence}]
-        if img_name not in save["predictions"].keys():
-            save["predictions"][img_name] = save_inner
+        save_inner = [{"image_id": video_id, "caption": save_sentence}]
+        if video_id not in save["predictions"].keys():
+            save["predictions"][video_id] = save_inner
+        # elif len(save_sentence) > len(save["predictions"][video_id][0]["caption"]):
+        #     save["predictions"][video_id] = save_inner
 
     json.dump(save, f, indent=4)
 
 
 if __name__ == '__main__':
     main(img_root="/home/ph/Dataset/VideoCaption/generateImgs/test",
-         model_path="./check_point5/epoch100.pth", bean_width=5)  # 3060 bean_width=3000时爆显存了
+         model_path="./check_point_fusion/best.pth", bean_width=5)  # 3060 bean_width=3000时爆显存了

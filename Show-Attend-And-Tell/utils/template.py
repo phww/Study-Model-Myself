@@ -2,9 +2,9 @@
 # _*_ coding: utf-8 _*_
 # @Time : 2021/5/14 下午4:59
 # @Author : PH
-# @Version：V 2.0
+# @Version：V 2.1
 # @File : template.py
-# @desc :
+# @desc : 模型训练模板，详情见：https://github.com/phww/tutorials-and-utils/tree/main/utils/Pytorch-training-template
 import time
 import torch
 from torchsummary import summary
@@ -64,11 +64,10 @@ class TemplateModel:
         # 运行设备
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         # check_point 目录
-        self.ckpt_dir = "./check_point"
+        self.ckpt_dir = "./check_point/" + time.strftime("%Y-%m-%d::%H:%M:%S")
 
-    def check_init(self, log_path="./log.txt", clean_log=False):
+    def check_init(self, log_name="log.txt", clean_log=False, arg=None):
         # 检测摸板的初始状态，可以在这加上很多在训练之前的操作
-        # 我喜欢加一个清空cuda的cache，保证训练时显存尽量不浪费
         assert isinstance(self.model_list, list)
         assert isinstance(self.optimizer_list, list)
         assert self.criterion
@@ -78,6 +77,8 @@ class TemplateModel:
         assert self.ckpt_dir
         assert self.log_per_step
         assert self.lr_scheduler_type in [None, "metric", "loss"]
+        if not osp.exists(self.ckpt_dir):
+            os.mkdir(self.ckpt_dir)
 
         # 设置lr_scheduler
         # 如果以测试集的metric为学习率改变的依据，选择mode="max";以loss为依据，选择mode="min"
@@ -96,24 +97,28 @@ class TemplateModel:
                                                                                  verbose=True)
                                       for optimizer in self.optimizer_list]
 
-        # 设置log
-        logger = Logger(log_path)
+        # 设置log,log保存目录为"self.ckpt_dir/log_name"
+        logger = Logger(os.path.join(self.ckpt_dir, log_name))
         if clean_log:
             logger.clean()
         sys.stdout = logger
         print(time.strftime("%Y-%m-%d::%H-%M-%S"))
+
+        # 如果有，打印arg
+        if arg is not None:
+            print(15 * "=", "args", 15 * "=")
+            arg_dict = arg.__dict__
+            for key in arg_dict.keys():
+                print(f"{key}:{arg_dict[key]}")
 
         # 清空cuda中的cache
         torch.cuda.empty_cache()
 
         for model in self.model_list:
             model.to(self.device)
-        if not osp.exists(self.ckpt_dir):
-            os.mkdir(self.ckpt_dir)
 
     def load_state(self, fname, optim=True):
-        # 读取保存的模型到模板之中。如果要继续训练的模型optim=True
-        # 使用最佳模型做推断optim=False
+        # 读取保存的模型到模板之中。如果要继续训练的模型optim=True；使用最佳模型做推断optim=False
         state = torch.load(fname)
         for idx, model in enumerate(self.model_list):
             if isinstance(model, torch.nn.DataParallel):  # 多卡训练
@@ -151,14 +156,16 @@ class TemplateModel:
         print('save model at {}'.format(fname))
 
     def train_loop(self, write_params=False):
-        """一般来说不用改"""
+        """训练一个epoch，一般来说不用改"""
         print("*" * 15, f"epoch:{self.epoch}", "*" * 15)
-        # 训练一个epoch
         for model in self.model_list:
             model.train()
 
         running_loss = 0.0
+        all_running_loss = 0.0
+        cnt = 0
         for step, batch in enumerate(self.train_loader):
+            cnt += 1
             self.global_step += 1
             batch_loss = self.loss_per_batch(batch)
 
@@ -171,41 +178,49 @@ class TemplateModel:
             for optimizer in reversed(self.optimizer_list):
                 optimizer.step()
             running_loss += batch_loss.item()
+            all_running_loss += batch_loss.item()
 
             # 记录损失除了训练刚开始时是用此时的loss外，其他都是用一批loss的平均loss
             if self.global_step == 1:
-                if self.writer is not None:
-                    self.writer.add_scalar('train_loss', batch_loss.item(), self.global_step)
+                # 为了tensorboard的曲线好看，不记录这个loss
+                # if self.writer is not None:
+                #     self.writer.add_scalar('train_loss', batch_loss.item(), self.global_step)
                 print(f"loss:{batch_loss.item() : .5f}\t"
                       f"cur:[{step * self.train_loader.batch_size}]\[{len(self.train_loader.dataset)}]")
 
-            # 记录每一批loss的平均loss
+            # 打印self.log_per_step批数据的的平均loss
             elif (step + 1) % self.log_per_step == 0:
                 avg_loss = running_loss / (self.log_per_step * len(batch))
-                if self.writer is not None:
-                    self.writer.add_scalar('train_loss', avg_loss, self.global_step)
                 print(f"loss:{avg_loss : .5f}\t"
                       f"cur:[{(step + 1) * self.train_loader.batch_size}]\[{len(self.train_loader.dataset)}]")
-
-                # write_params=True在Tensorboard中记录模型的参数的分布情况，但是也费时间
-                # 每训练一定的批次就记录此时的参数和梯度
-                if write_params and self.writer is not None:
-                    for model in self.model_list:
-                        for tag, value in model.named_parameters():
-                            tag = tag.replace('.', '/')
-                            self.writer.add_histogram('weights/' + tag, value.data.cpu().numpy())
-                            if value.grad is not None:  # 在FineTurn时有些参数被冻结了，没有梯度。也就不用记录了
-                                self.writer.add_histogram('grads/' + tag, value.grad.data.cpu().numpy())
-
                 running_loss = 0.0
+
+                # Tensorboard记录
+                if self.writer is not None:
+                    # 平均loss
+                    self.writer.add_scalar('train_loss', avg_loss, self.global_step)
+
+                    # write_params=True在Tensorboard中记录模型的参数和梯度的分布情况，但是也费时间。默认关闭
+                    if write_params:
+                        for model in self.model_list:
+                            for tag, value in model.named_parameters():
+                                tag = tag.replace('.', '/')
+                                self.writer.add_histogram('weights/' + tag, value.data.cpu().numpy())
+                                if value.grad is not None:  # 在FineTurn时有些参数被冻结了，没有梯度。也就不用记录了
+                                    self.writer.add_histogram('grads/' + tag, value.grad.data.cpu().numpy())
+
+        # 一个epoch，训练集的全部样本的平均loss
+        avg_batch_loss = all_running_loss / cnt / 2
+        print(f"epoch:{self.epoch}\tavg_epoch_loss:{avg_batch_loss:.5f}")
+        if self.writer is not None:
+            self.writer.add_scalars("avg_epoch_loss", {"train": avg_batch_loss}, self.epoch)
 
     def loss_per_batch(self, batch):
         """
         计算数据集的一个batch的loss，这个部分是可能要按需求修改的部分
-        # Pytorch 中的loss函数中一般规定x和y都是float，而有些loss函数规定y要为long（比如经常用到的CrossEntropyLoss）
-        # 如果官网：https://pytorch.org/docs/stable/nn.html#loss-functions 对y的数据类型有要求请做相应的修改
-        # 这里除了CrossEntropyLoss将y的数据类型设为long外， 其他都默认x和y的数据类型为float
-
+        Pytorch 中的loss函数中一般规定x和y都是float，而有些loss函数规定y要为long（比如经常用到的CrossEntropyLoss）
+        如果官网：https://pytorch.org/docs/stable/nn.html#loss-functions 对y的数据类型有要求请做相应的修改
+        这里除了CrossEntropyLoss将y的数据类型设为long外， 其他都默认x和y的数据类型为float
         """
         x, y = batch
         x = x.to(self.device, dtype=torch.float)
@@ -228,8 +243,8 @@ class TemplateModel:
         loss = self.criterion(pred, y)
         return loss
 
-    def eval(self, save_per_epochs=1):
-        """一般不用改"""
+    def eval_loop(self, save_per_epochs=1):
+        """一个epoch的评估。一般不用改"""
         print("-" * 15, "Evaluation", "-" * 15)
         # 在整个测试集上做评估，使用分批次的metric的平均值表示训练集整体的metric
         with torch.no_grad():
@@ -238,43 +253,45 @@ class TemplateModel:
 
             # 验证时的loss
             running_loss = 0.0
-            running_loss_all = 0.0
+            all_running_loss = 0.0
+            # 保存各种metric的得分
+            scores = {}
+            cnt = 0
             for step, batch in enumerate(self.test_loader):
-                cnt = 0
+                cnt += 1
                 self.global_step_eval += 1
+
+                # 计算评估时多个批次的平均loss
                 batch_loss = self.loss_per_batch(batch)
                 running_loss += batch_loss.item()
+                all_running_loss += batch_loss.item()
+                # 每self.log_per_step个step打印信息
                 if (step + 1) % self.log_per_step == 0:
                     avg_loss = running_loss / (self.log_per_step * len(batch))
                     if self.writer is not None:
                         self.writer.add_scalar('eval_loss', avg_loss, self.global_step_eval)
                     print(f"loss:{avg_loss : .5f}\t"
                           f"cur:[{(step + 1) * self.test_loader.batch_size}]\[{len(self.test_loader.dataset)}]")
-                    running_loss_all += running_loss
                     running_loss = 0.0
 
                 # 分批计算metric
-                scores = {}
-                if self.global_step_eval == 1:
-                    scores = self.eval_scores_per_batch(batch)
-                    self.best_metric = scores
+                if step == 0:
+                    scores = self.eval_scores_per_batch(batch)  # 每个epoch初始化scores
                 # 累加所有批次的metric。这里有个问题：
                 # 准确率可以使用分批的准确率之和除以分批数量得到，并且与用全部数据集计算准确率是等价的
                 # 但是有的metric使用一部分批次的计算出来的结果可能与使用全部数据集计算出来的结果不同
                 else:
                     batch_scores = self.eval_scores_per_batch(batch)
-                    scores.update(batch_scores)
-                cnt += 1
-            # 整个测试即上的平均running_loss
-            avg_running_loss = running_loss_all / cnt
-            # 最后的metric要取所有批次的平均
+                    for key in scores.keys():
+                        scores[key] += batch_scores[key]
+                if self.global_step_eval == 1:
+                    self.best_metric = scores  # 第一次eval时，初始化self.best_metric
+
+            # 整个测试集上的平均running_loss
+            avg_batch_loss = all_running_loss / cnt / 2
+            # 整个测试集上的平均metric
             for key in scores.keys():
                 scores[key] /= cnt
-
-            # Tensorboard记录
-            if self.writer is not None:
-                for key in scores.keys():
-                    self.writer.add_scalar(f"{key}", scores[key], self.epoch)
 
             # 根据scores[self.key_metric]来判定是否保存最佳模型.
             # self.key_metric需要在metric函数中初始化，分类任务常用self.key_metric = "acc"
@@ -282,6 +299,7 @@ class TemplateModel:
                 # 更新所有metric的最佳结果到self.best_metric字典中
                 if scores[key] >= self.best_metric[key]:
                     self.best_metric[key] = scores[key]
+
                     # 保存最佳模型
                     if key == self.key_metric:
                         self.save_state(osp.join(self.ckpt_dir, f'best.pth'), False)
@@ -289,20 +307,31 @@ class TemplateModel:
             # 每save_per_epochs次评估就保存当前模型，这种模型一般用于继续训练
             if self.epoch % save_per_epochs == 0:
                 self.save_state(osp.join(self.ckpt_dir, f'epoch{self.epoch}.pth'))
+
+            # 打印信息:一个epoch上的平均loss和关键指标
+            print(f"epoch:{self.epoch}\tavg_epoch_loss:{avg_batch_loss:.5f}")
             print(f'epoch:{self.epoch}\t{self.key_metric}:{scores[self.key_metric]:.5f}')
 
-            # 保存lr_scheduler中学习率的变化情况
-            if self.lr_scheduler_list is not None:
-                for i, lr_scheduler in enumerate(self.lr_scheduler_list):
-                    if self.writer is not None:
+            # Tensorboard
+            if self.writer is not None:
+                # 记录每个epoch的metric
+                for key in scores.keys():
+                    self.writer.add_scalar(f"eval_{key}", scores[key], self.epoch)
+
+                # 记录一个epoch中验证集中全部样本的平均loss
+                self.writer.add_scalars("avg_epoch_loss", {"eval": avg_batch_loss}, self.epoch)
+
+                # 记录lr_scheduler中学习率的变化情况
+                if self.lr_scheduler_list is not None:
+                    for i, lr_scheduler in enumerate(self.lr_scheduler_list):
                         self.writer.add_scalar(f"lr_scheduler{i}",
                                                self.optimizer_list[i].param_groups[0]["lr"],
                                                self.epoch)
                     if self.lr_scheduler_type == "metric":
                         lr_scheduler.step(scores[self.key_metric])
                     elif self.lr_scheduler_type == "loss":
-                        lr_scheduler.step(avg_running_loss)
-        self.epoch += 1
+                        lr_scheduler.step(avg_batch_loss)
+            self.epoch += 1
         return scores[self.key_metric]
 
     # 以下eval_scores_per_batch()和metric()，有时要按需求修改
@@ -353,6 +382,7 @@ class TemplateModel:
 
     def get_model_info(self, fake_inp):
         # 输出模型信息和在Tensorboard中绘制模型计算图
+        print(15 * "=", "model info", 15 * "=")
         if self.writer is not None:
             for model in self.model_list:
                 self.writer.add_graph(model, fake_inp.to(self.device))
@@ -364,3 +394,22 @@ class TemplateModel:
         for model in self.model_list:
             num += sum([p.data.nelement() for p in model.parameters()])
         return num
+
+    def print_best_metrics(self):
+        for key in self.best_metric.keys():
+            print(f"{key}:\t{self.best_metric[key]}")
+
+    def print_final_lr(self):
+        for i, optimizer in enumerate(self.optimizer_list):
+            print(f"final_lr_{i}:{optimizer.param_groups[0]['lr']}")
+
+    def print_all_member(self, print_model=False):
+        print(15 * "=", "template config", 15 * "=")
+        # 不重要，不需要打印的信息
+        except_member = ["best_metric", "key_metric", "train_loader", "test_loader", "writer"]
+        # 模型信息太长了，选择打印
+        if not print_model:
+            except_member.append("model_list")
+        for name, value in vars(self).items():
+            if name not in except_member:
+                print(f"{name}:{value}")

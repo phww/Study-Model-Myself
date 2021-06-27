@@ -51,8 +51,8 @@ class Trainer(TemplateModel):
         self.train_loader = train_loader
         self.test_loader = test_loader
         # 训练时print的间隔
-        self.log_per_step = 5
-        self.ckpt_dir = "./check_point5"
+        self.log_per_step = 10
+        self.ckpt_dir = "./check_point_fusion"
         #
         self.lr_scheduler_type = "loss"  # None "metric" "loss"
 
@@ -97,37 +97,71 @@ class Trainer(TemplateModel):
         return scores
 
 
+def getArg():
+    import argparse
+    parser = argparse.ArgumentParser(description="train model")
+    # path
+    parser.add_argument("--vocab_path",
+                        default="/home/ph/Dataset/VideoCaption/vocab.pkl",
+                        help="字典文件的路径")
+    parser.add_argument("--image_root_train",
+                        default="/home/ph/Dataset/VideoCaption/generateImgs/train",
+                        help="训练集图片文件夹的根目录")
+    parser.add_argument("--image_root_val",
+                        default="/home/ph/Dataset/VideoCaption/generateImgs/val",
+                        help="验证集图片文件夹的根目录")
+    parser.add_argument("--caption_path",
+                        default="/home/ph/Dataset/VideoCaption/info.json",
+                        help="视频对应的描述性语句")
+    # train config
+    parser.add_argument("--epochs", type=int, help="训练的轮次")
+    parser.add_argument("--batch_size_train", type=int, default=5, help="训练集的batch_size")
+    parser.add_argument("--batch_size_val", type=int, default=5, help="验证集的batch_size")
+    parser.add_argument("--encoder_init_lr", type=float, default=1e-4, help="CNN特征编码器的初始lr")
+    parser.add_argument("--decoder_init_lr", type=float, default=1e-4, help="RNN特征编码器的初始lr")
+    # model config
+    parser.add_argument("--att_dim", type=int, default=512, help="模型参数见model.py")
+    parser.add_argument("--decoder_dim", type=int, default=512, help="模型参数见model.py")
+    parser.add_argument("--embed_dim", type=int, default=512, help="模型参数见model.py")
+    parser.add_argument("--continue_model", help="要继续训练的模型文件路径")
+    parser.add_argument("--use_fusion", type=bool, default=True, help="融合多帧")
+    arg = parser.parse_args()
+    return arg
+
+
 def main(continue_model=None):
     global vocab
-    vocab_path = "/home/ph/Dataset/VideoCaption/vocab.pkl"
+    arg = getArg()
+    vocab_path = arg.vocab_path
     vocab = Vocabulary()
     with open(vocab_path, "rb") as f:
         vocab = pickle.load(f)
     print("vocab_size:", len(vocab))
-    image_root_train = "/home/ph/Dataset/VideoCaption/generateImgs/train"
-    image_root_val = "/home/ph/Dataset/VideoCaption/generateImgs/val"
-    caption_path = "/home/ph/Dataset/VideoCaption/info.json"
-    epochs = 100
-    batch_size_train = 200
-    batch_size_val = 50
+    image_root_train = arg.image_root_train
+    image_root_val = arg.image_root_val
+    caption_path = arg.caption_path
+    epochs = arg.epochs
+    batch_size_train = arg.batch_size_train
+    batch_size_val = arg.batch_size_val
     transforms = Compose([Resize((224, 224)),
                           RandomHorizontalFlip(),
                           ToTensor(),
                           Normalize([0.43710339, 0.41183448, 0.39289876],
                                     [0.27540463, 0.27135348, 0.27471914])])
-    encoder_init_lr = 1e-4
-    decoder_init_lr = 1e-4
+    encoder_init_lr = arg.encoder_init_lr
+    decoder_init_lr = arg.decoder_init_lr
     train_loader = get_loader(vocab_path, image_root_train,
                               caption_path, batch_size=batch_size_train,
-                              transforms=transforms)
+                              transforms=transforms, use_fusion=arg.use_fusion)
     val_loader = get_loader(vocab_path, image_root_val,
                             caption_path, batch_size=batch_size_val,
-                            transforms=transforms)
-    model_config = {"att_dim": 512,
-                    "decoder_dim": 512,
-                    "embed_dim": 512,
-                    "vocab_size": len(vocab)}
-    encoder = CNNEncoder()
+                            transforms=transforms, use_fusion=arg.use_fusion)
+    model_config = {"att_dim": arg.att_dim,
+                    "decoder_dim": arg.decoder_dim,
+                    "embed_dim": arg.embed_dim,
+                    "vocab_size": len(vocab),
+                    "encoder_dim": 2048}
+    encoder = CNNEncoder(cnn_type="resnet")
     decoder = RNNDecoderWithAttention(**model_config)
     encoder_optimizer = torch.optim.Adam(params=encoder.parameters(), lr=encoder_init_lr)
     decoder_optimizer = torch.optim.Adam(params=decoder.parameters(), lr=decoder_init_lr)
@@ -135,13 +169,13 @@ def main(continue_model=None):
     trainer = Trainer(loss_fn, train_loader, val_loader,
                       encoder_optimizer, decoder_optimizer,
                       encoder, decoder)
-    trainer.check_init(clean_log=True)
+    trainer.check_init(clean_log=True, arg=arg)
     if continue_model is not None:
         trainer.load_state(continue_model)
 
     for epoch in range(epochs):
         trainer.train_loop()
-        trainer.eval(save_per_epochs=10)
+        trainer.eval_loop(save_per_epochs=10)
 
 
 if __name__ == '__main__':
