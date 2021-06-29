@@ -21,9 +21,9 @@ import pprint
 
 global encoder, decoder
 transforms = Compose([Resize((224, 224)),
-                      ToTensor(),
-                      Normalize([0.43710339, 0.41183448, 0.39289876],
-                                [0.27540463, 0.27135348, 0.27471914])])
+                      ToTensor()])
+# Normalize([0.43710339, 0.41183448, 0.39289876],
+#           [0.27540463, 0.27135348, 0.27471914])])
 device = "cuda" if torch.cuda.is_available() else "cpu"
 vocab_path = "/home/ph/Dataset/VideoCaption/vocab.pkl"
 vocab = Vocabulary()
@@ -77,6 +77,7 @@ def inferenceOneImage(imgs, bean_width=5):
         # 初始的h0，c0
         h, c = decoder.init_hidden_state(feat_tokens)
         while True:
+            # 打印信息
             # print(f"step{step}")
             # print("incomplete")
             # v = 1.0
@@ -88,6 +89,7 @@ def inferenceOneImage(imgs, bean_width=5):
             # print("complete")
             # for seq in complete_seqs:
             #     print(translate2Sentence(words_vec=[seq], vocab=vocab, reference=False)[0])
+
             embeddings = decoder.embedding(k_prev_words)  # k, 1, embed_dim
             # s，2048 和 s，enc_image_size**2
             att_weighted_encoder_out, att_weight = decoder.attention(feat_tokens, h)
@@ -155,7 +157,7 @@ def inferenceOneImage(imgs, bean_width=5):
         return seq, alphas
 
 
-def main(img_root, model_path, bean_width=5, k=9):
+def main(img_root, model_path, bean_width=5, k=8):
     global encoder, decoder
     encoder, decoder = getModel(model_path)
     encoder.to(device).eval()
@@ -180,21 +182,21 @@ def main(img_root, model_path, bean_width=5, k=9):
 
         seq, alphas = inferenceOneImage(imgs, bean_width=bean_width)
         caption = translate2Sentence(words_vec=[seq], vocab=vocab, reference=False)[0]
-        # print(caption)
         save_sentence = str()
         for word in caption:
             if word not in ["<start>", "<end>"]:
                 save_sentence += word
                 save_sentence += " "
         save_inner = [{"image_id": video_id, "caption": save_sentence}]
+        print(save_sentence)
         if video_id not in save["predictions"].keys():
             save["predictions"][video_id] = save_inner
-        # elif len(save_sentence) > len(save["predictions"][video_id][0]["caption"]):
-        #     save["predictions"][video_id] = save_inner
+        elif len(save_sentence) > len(save["predictions"][video_id][0]["caption"]) and k == 1:
+            save["predictions"][video_id] = save_inner
 
     json.dump(save, f, indent=4)
 
 
 if __name__ == '__main__':
     main(img_root="/home/ph/Dataset/VideoCaption/generateImgs/test",
-         model_path="./check_point_fusion/best.pth", bean_width=5)  # 3060 bean_width=3000时爆显存了
+         model_path="./check_point_fusion_captions_256/best.pth", bean_width=100, k=8)  # 3060 bean_width=3000时爆显存了

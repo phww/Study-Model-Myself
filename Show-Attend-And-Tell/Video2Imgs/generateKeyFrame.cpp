@@ -2,7 +2,7 @@
 // @Author : PH
 // @Version：V 0.1
 // @File : generateKeyFrame.cpp
-// @desc :
+// @desc : 使用直方图差分的方法提取视频中的关键帧。其中每个视频提取k帧，不满k帧用第0帧补充到k帧。
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <algorithm>
@@ -11,7 +11,10 @@
 #include "getFiles.h"
 using namespace std;
 using namespace cv;
+
 vector<Mat> getHistRGB(Mat& frame) {
+  //! \brief 计算一帧的直方图(三通道）
+
   vector<Mat> hist_rgb(3);
   // 分离BGR通道
   Mat channels[3];
@@ -27,6 +30,7 @@ vector<Mat> getHistRGB(Mat& frame) {
 }
 
 double autoThreshold(vector<double>& nums) {
+  //! \brief 自动阈值=得分的平均值+标准差
   double mean = std::accumulate(nums.begin(), nums.end(), 0) / nums.size();
   double var = 0;
   for (auto num : nums) {
@@ -37,8 +41,10 @@ double autoThreshold(vector<double>& nums) {
   return std + mean;
 }
 
+//! \brief 提取train、test、val中视频的关键帧，并保存在generateImgs文件夹内
 int main() {
-  string dataset_type = "test"; // train or test
+  int max_frame = 8; // 必须提取k帧
+  string dataset_type = "test"; // train or test or val
   string video_root = "/home/ph/Dataset/VideoCaption/";
   vector<string> video_paths;
   getFiles(video_root + dataset_type, video_paths);
@@ -101,14 +107,17 @@ int main() {
 	// 从视频的第二帧开始，根据全部差分结果和自适应阈值来确定关键帧
 	double threshold = autoThreshold(all_scores);
 	Mat key_frame;
-	int cnt = 0;
+	int cnt = 1;
 	for (int k = 2; k <= n_frame; k++) {
 	  if (all_scores[k - 1] > threshold) {
 		cap.set(CAP_PROP_POS_FRAMES, k);
 		cap >> key_frame;
-		k++; // 一般来说第k帧和第k+1帧差不多，只要一个就行了
-		cnt++; // 对一个视频最多只要8帧
-		if (key_frame.empty() || cnt > 8) {
+		if (!key_frame.empty()) {
+		  k++; // 一般来说第k帧和第k+1帧差不多，只要一个就行了
+		  cnt++; // 对一个视频最多只要8帧
+		}
+
+		if (key_frame.empty() || cnt > max_frame) {
 		  break;
 		}
 		string name = video_root + "generateImgs/" + dataset_type + "/" + video_name + "-" + to_string(k) + ".jpg";
@@ -118,7 +127,7 @@ int main() {
 	}
 
 	// 凑不够8帧就用第0帧补充
-	while (cnt < 8) {
+	while (cnt < max_frame) {
 	  cap.set(CAP_PROP_POS_FRAMES, 0);
 	  cap >> key_frame;
 	  string name = video_root + "generateImgs/" + dataset_type + "/"

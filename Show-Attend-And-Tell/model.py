@@ -21,9 +21,10 @@ class CNNEncoder(nn.Module):
             resnet = resnet101(pretrained=True)
             # 不需要resnet101的最后两层
             modules = list(resnet.children())[:-2]
-            # self._fine_turn(fine_turn_layer)
+            # self._fine_turn(fine_turn_layer) # 当前使用的训练集太小，重新训练最后几层反而效果不好
             self.n_channels = 2048
 
+        # 实验VGG效果不如resnet101
         elif cnn_type == "vgg":
             vgg = vgg16_bn(pretrained=True)
             modules = list(vgg.children())[:-2]
@@ -31,7 +32,6 @@ class CNNEncoder(nn.Module):
         self.extract_feat = nn.Sequential(*modules)
         # resnet倒数第二层的输出形状为（b，2048， 2， 2）需要变为（b，2048， 14， 14）
         self.pooling = nn.AdaptiveAvgPool2d(output_size=(encode_image_size, encode_image_size))
-        # fine turn最后3层，即特征向量长度为2048的卷积层
 
     def forward(self, images, mean_fusion=True):
         """
@@ -46,8 +46,8 @@ class CNNEncoder(nn.Module):
         k = images.size(1) // 3
         features = self.extract_feat(images[:, :3, :, :]).unsqueeze(dim=1)  # B, 1, 2048, 2, 2
         for i in range(1, k):
-
             feature = self.extract_feat(images[:, i * 3:(i + 1) * 3, :, :]).unsqueeze(dim=1)
+            # 在dim=2堆叠一个视频中的k帧的feature map
             features = torch.cat([features, feature], dim=1)  # B, k, 2048, 2, 2
         # 取平均，融合特征
         if mean_fusion:
@@ -58,6 +58,7 @@ class CNNEncoder(nn.Module):
         output = rearrange(features_2048x14x14, "B N H W -> B H W N")
         return output
 
+    # fine turn最后3层，即特征向量长度为2048的卷积层
     def _fine_turn(self, fin_turn_layer):
         for params in self.extract_feat.parameters():
             params.requires_grad = False

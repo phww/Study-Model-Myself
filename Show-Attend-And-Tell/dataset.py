@@ -17,20 +17,6 @@ from tqdm.auto import tqdm
 from PIL import Image
 from generateVocab import Vocabulary
 
-# @File : dataset.py
-# @desc : 自己定义的dataset
-import random
-import nltk
-import numpy as np
-import torch
-from torch.utils.data import Dataset, DataLoader
-import json
-import pickle
-import os
-from tqdm.auto import tqdm
-from PIL import Image
-from generateVocab import Vocabulary
-
 
 class MyCaptionDatasetRaw(Dataset):
     def __init__(self, vocab_path, image_root, caption_path, transforms):
@@ -81,7 +67,7 @@ class MyCaptionDatasetRaw(Dataset):
 
 
 class MyCaptionDatasetFusion(Dataset):
-    def __init__(self, vocab_path, image_root, caption_path, transforms, k=9):
+    def __init__(self, vocab_path, image_root, caption_path, transforms, k=8):
         super(MyCaptionDatasetFusion, self).__init__()
         self.k = k
         # 读取各种文件
@@ -90,14 +76,14 @@ class MyCaptionDatasetFusion(Dataset):
             self.vocab = pickle.load(f)
         self.img_root = image_root
         self.img_paths = os.listdir(image_root)
-        sorted(self.img_paths)  # 先排序图片路径
+        self.img_paths = sorted(self.img_paths)  # 先排序图片路径
         with open(caption_path, "rb") as f:
             self.text_dicts = json.load(f)["sentences"]
         self.transforms = transforms
 
     def __getitem__(self, idx):
-        # 按下标索引视频提取的所有帧
-        video_id = self.img_paths[idx].split("-")[0]  # G_16000-1.jpg -> G_16000
+        # 按下标索引视频提取的所有帧，因为提前排过序。[idx*k，（idx+1）*k]的图片都属于一个视频中提取的关键帧
+        video_id = self.img_paths[idx * self.k].split("-")[0]  # G_16000-1.jpg -> G_16000
         img = Image.open(os.path.join(self.img_root, self.img_paths[idx * self.k])).convert('RGB')
         if self.transforms is not None:
             imgs = self.transforms(img)  # 3, 224, 224
@@ -110,16 +96,20 @@ class MyCaptionDatasetFusion(Dataset):
 
         # 按下标索引图片的描述/caption，ground truth
         caption = []
-        # 每个视频有5个caption，随机选一个
+        # 训练时。每个视频有5个caption，随机选一个
         sen_id = random.choice(range(5))
         for i, text_dict in enumerate(self.text_dicts):
-            # 按图片名暴力搜索对应的caption
+            # 按图片名暴力搜索对应的caption。（这里可以二分搜索优化一下）
             if text_dict["video_id"] == video_id and text_dict["sen_id"] == sen_id:
                 caption = text_dict["caption"]
-                break
-        tokens = nltk.tokenize.word_tokenize(str(caption).lower())
 
+        # tokenize 训练时随机选取的caption
+        target = self.tokenize_caption(caption)
+        return imgs, target, video_id
+
+    def tokenize_caption(self, caption):
         target = []
+        tokens = nltk.tokenize.word_tokenize(str(caption).lower())
         target.append(self.vocab.word2idx["<start>"])
         # 当generateVocab.py里面设置词频阈值大于0时。语料库中的一些词不会被记录到字典中。因此设置其为<unk>
         for word in tokens:
@@ -128,7 +118,7 @@ class MyCaptionDatasetFusion(Dataset):
             target.append(self.vocab.word2idx[word])
         target.append(self.vocab.word2idx["<end>"])
         target = torch.tensor(target)
-        return imgs, target
+        return target
 
     def __len__(self):
         return len(self.img_paths) // self.k
@@ -149,14 +139,18 @@ def collect_fn(data):
     """
     # 先按target的长度从大到小排序data
     data.sort(key=lambda x: len(x[1]), reverse=True)
-    # 图片的堆叠方式不变
-    imgs, captions = zip(*data)
+
+    # 图片和视频名的堆叠方式不变
+    all_video_id = []
+    imgs, captions, video_ids = zip(*data)
     imgs = torch.stack(imgs, dim=0)
+
+
     # caption以最长的语句为标准，因为定义了"<pad>"字符的idx为0。在不够长度的在句子后面填0，
     lengths = [len(caption) for caption in captions]
+
     # 用Pytorch提供的API填充语句
     targets = torch.nn.utils.rnn.pad_sequence(captions, batch_first=True, padding_value=0)
-
     # 自己写也很容易
     # max_length = max(lengths)
     # targets = torch.zeros(len(captions), max_length).long()
@@ -164,7 +158,7 @@ def collect_fn(data):
     #     cur_len = lengths[i]
     #     targets[i, :cur_len] = caption[:cur_len]
 
-    return imgs, targets, lengths
+    return imgs, targets, lengths, video_ids
 
 
 def get_loader(vocab_path, image_root, caption_path, batch_size, transforms, use_fusion=True):
@@ -197,11 +191,11 @@ if __name__ == "__main__":
     image_root = "/home/ph/Dataset/VideoCaption/generateImgs/train"
     caption_path = "/home/ph/Dataset/VideoCaption/info.json"
     data_loader = get_loader(vocab_path, image_root, caption_path, batch_size=10, transforms=transforms,
-                             use_fusion=False)
+                             use_fusion=True)
     cnt = 0
     mean = np.zeros((1, 3))
     std = np.zeros((1, 3))
-    for imgs, targets, lengths in data_loader:
+    for imgs, targets, lengths, video_ids in data_loader:
         cnt += 1
         imgs = imgs.numpy()
         print(imgs.shape)
@@ -211,9 +205,19 @@ if __name__ == "__main__":
         # std /= cnt
         # print(mean)  # 0.43710339 0.41183448 0.39289876
         # print(std)  # 0.27540463 0.27135348 0.27471914
+
+        batch_captions = []
+        for video_id in video_ids:
+            captions = []
+            for test_dict in data_loader.dataset.text_dicts:
+                if test_dict["video_id"] == video_id:
+                    captions.append(test_dict['caption'])
+            batch_captions.append(captions)
+        print(batch_captions[2])
         targets = targets.tolist()
+        print(video_ids[2])
         plt.imshow(imgs[2].transpose(1, 2, 0).mean(axis=-1), "gray")
-        for word in targets[0]:
+        for word in targets[2]:
             print(data_loader.dataset.vocab.idx2word[word], end=" ")
         plt.show()
         break
