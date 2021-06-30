@@ -1,0 +1,4804 @@
+{
+    "predictions": {
+        "G_00020": [
+            {
+                "image_id": "G_00020",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00037": [
+            {
+                "image_id": "G_00037",
+                "caption": "a ship is moving "
+            }
+        ],
+        "G_00041": [
+            {
+                "image_id": "G_00041",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_00046": [
+            {
+                "image_id": "G_00046",
+                "caption": "a man is lying on the ground "
+            }
+        ],
+        "G_00051": [
+            {
+                "image_id": "G_00051",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00062": [
+            {
+                "image_id": "G_00062",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00063": [
+            {
+                "image_id": "G_00063",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_00065": [
+            {
+                "image_id": "G_00065",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_00070": [
+            {
+                "image_id": "G_00070",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00071": [
+            {
+                "image_id": "G_00071",
+                "caption": "many people are walking on the road "
+            }
+        ],
+        "G_00128": [
+            {
+                "image_id": "G_00128",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_00139": [
+            {
+                "image_id": "G_00139",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00145": [
+            {
+                "image_id": "G_00145",
+                "caption": "the doctor is operating the patient "
+            }
+        ],
+        "G_00153": [
+            {
+                "image_id": "G_00153",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00184": [
+            {
+                "image_id": "G_00184",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_00193": [
+            {
+                "image_id": "G_00193",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00194": [
+            {
+                "image_id": "G_00194",
+                "caption": "a man in a suit was talking "
+            }
+        ],
+        "G_00201": [
+            {
+                "image_id": "G_00201",
+                "caption": "many cars are running on the road "
+            }
+        ],
+        "G_00211": [
+            {
+                "image_id": "G_00211",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00213": [
+            {
+                "image_id": "G_00213",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00218": [
+            {
+                "image_id": "G_00218",
+                "caption": "there are many houses on the road "
+            }
+        ],
+        "G_00221": [
+            {
+                "image_id": "G_00221",
+                "caption": "a white car was driving on the road "
+            }
+        ],
+        "G_00222": [
+            {
+                "image_id": "G_00222",
+                "caption": "the doctor is giving an injection "
+            }
+        ],
+        "G_00232": [
+            {
+                "image_id": "G_00232",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00234": [
+            {
+                "image_id": "G_00234",
+                "caption": "there are many houses on the road "
+            }
+        ],
+        "G_00238": [
+            {
+                "image_id": "G_00238",
+                "caption": "a group of people are dancing "
+            }
+        ],
+        "G_00251": [
+            {
+                "image_id": "G_00251",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_00254": [
+            {
+                "image_id": "G_00254",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_00264": [
+            {
+                "image_id": "G_00264",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_00266": [
+            {
+                "image_id": "G_00266",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_00267": [
+            {
+                "image_id": "G_00267",
+                "caption": "the flood in the water "
+            }
+        ],
+        "G_00270": [
+            {
+                "image_id": "G_00270",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_00282": [
+            {
+                "image_id": "G_00282",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00290": [
+            {
+                "image_id": "G_00290",
+                "caption": "two men were talking "
+            }
+        ],
+        "G_00306": [
+            {
+                "image_id": "G_00306",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00313": [
+            {
+                "image_id": "G_00313",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_00320": [
+            {
+                "image_id": "G_00320",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00324": [
+            {
+                "image_id": "G_00324",
+                "caption": "two men are talking "
+            }
+        ],
+        "G_00354": [
+            {
+                "image_id": "G_00354",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00363": [
+            {
+                "image_id": "G_00363",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00371": [
+            {
+                "image_id": "G_00371",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00373": [
+            {
+                "image_id": "G_00373",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00374": [
+            {
+                "image_id": "G_00374",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_00412": [
+            {
+                "image_id": "G_00412",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_00445": [
+            {
+                "image_id": "G_00445",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_00481": [
+            {
+                "image_id": "G_00481",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00493": [
+            {
+                "image_id": "G_00493",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00501": [
+            {
+                "image_id": "G_00501",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_00505": [
+            {
+                "image_id": "G_00505",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00506": [
+            {
+                "image_id": "G_00506",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_00509": [
+            {
+                "image_id": "G_00509",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_00528": [
+            {
+                "image_id": "G_00528",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_00559": [
+            {
+                "image_id": "G_00559",
+                "caption": "a group of doctors were treating patients "
+            }
+        ],
+        "G_00567": [
+            {
+                "image_id": "G_00567",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00595": [
+            {
+                "image_id": "G_00595",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_00621": [
+            {
+                "image_id": "G_00621",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00685": [
+            {
+                "image_id": "G_00685",
+                "caption": "many people are walking on the road "
+            }
+        ],
+        "G_00688": [
+            {
+                "image_id": "G_00688",
+                "caption": "the plane is moving "
+            }
+        ],
+        "G_00692": [
+            {
+                "image_id": "G_00692",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_00715": [
+            {
+                "image_id": "G_00715",
+                "caption": "a man dressed in black was talking "
+            }
+        ],
+        "G_00721": [
+            {
+                "image_id": "G_00721",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_00766": [
+            {
+                "image_id": "G_00766",
+                "caption": "the water was flowing "
+            }
+        ],
+        "G_00769": [
+            {
+                "image_id": "G_00769",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00775": [
+            {
+                "image_id": "G_00775",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_00776": [
+            {
+                "image_id": "G_00776",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_00804": [
+            {
+                "image_id": "G_00804",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00809": [
+            {
+                "image_id": "G_00809",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_00820": [
+            {
+                "image_id": "G_00820",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_00823": [
+            {
+                "image_id": "G_00823",
+                "caption": "a car was driving on the road "
+            }
+        ],
+        "G_00824": [
+            {
+                "image_id": "G_00824",
+                "caption": "a ship is moving "
+            }
+        ],
+        "G_00825": [
+            {
+                "image_id": "G_00825",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00843": [
+            {
+                "image_id": "G_00843",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_00859": [
+            {
+                "image_id": "G_00859",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_00874": [
+            {
+                "image_id": "G_00874",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_00876": [
+            {
+                "image_id": "G_00876",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_00887": [
+            {
+                "image_id": "G_00887",
+                "caption": "there are many people in the street "
+            }
+        ],
+        "G_00891": [
+            {
+                "image_id": "G_00891",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_00892": [
+            {
+                "image_id": "G_00892",
+                "caption": "the doctor is dispensing medicine "
+            }
+        ],
+        "G_00895": [
+            {
+                "image_id": "G_00895",
+                "caption": "a missile is flying in the sky "
+            }
+        ],
+        "G_00902": [
+            {
+                "image_id": "G_00902",
+                "caption": "there are many houses on the road "
+            }
+        ],
+        "G_00904": [
+            {
+                "image_id": "G_00904",
+                "caption": "a doctor is talking "
+            }
+        ],
+        "G_00910": [
+            {
+                "image_id": "G_00910",
+                "caption": "the flood "
+            }
+        ],
+        "G_00918": [
+            {
+                "image_id": "G_00918",
+                "caption": "a piece of paper "
+            }
+        ],
+        "G_00921": [
+            {
+                "image_id": "G_00921",
+                "caption": "a ship is flying in the sky "
+            }
+        ],
+        "G_00946": [
+            {
+                "image_id": "G_00946",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00958": [
+            {
+                "image_id": "G_00958",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_00962": [
+            {
+                "image_id": "G_00962",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_00964": [
+            {
+                "image_id": "G_00964",
+                "caption": "a group of people were walking on the road "
+            }
+        ],
+        "G_00972": [
+            {
+                "image_id": "G_00972",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_00993": [
+            {
+                "image_id": "G_00993",
+                "caption": "people in the water "
+            }
+        ],
+        "G_01022": [
+            {
+                "image_id": "G_01022",
+                "caption": "two cars were driving on the road "
+            }
+        ],
+        "G_01046": [
+            {
+                "image_id": "G_01046",
+                "caption": "many cars are running on the road "
+            }
+        ],
+        "G_01128": [
+            {
+                "image_id": "G_01128",
+                "caption": "the doctor is operating the patient "
+            }
+        ],
+        "G_01148": [
+            {
+                "image_id": "G_01148",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_01155": [
+            {
+                "image_id": "G_01155",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_01160": [
+            {
+                "image_id": "G_01160",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_01180": [
+            {
+                "image_id": "G_01180",
+                "caption": "firefighters rescued the trapped people "
+            }
+        ],
+        "G_01191": [
+            {
+                "image_id": "G_01191",
+                "caption": "several people were walking "
+            }
+        ],
+        "G_01192": [
+            {
+                "image_id": "G_01192",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_01222": [
+            {
+                "image_id": "G_01222",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01226": [
+            {
+                "image_id": "G_01226",
+                "caption": "a man is walking "
+            }
+        ],
+        "G_01227": [
+            {
+                "image_id": "G_01227",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_01230": [
+            {
+                "image_id": "G_01230",
+                "caption": "the flood "
+            }
+        ],
+        "G_01255": [
+            {
+                "image_id": "G_01255",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01270": [
+            {
+                "image_id": "G_01270",
+                "caption": "a man dressed in black was talking "
+            }
+        ],
+        "G_01280": [
+            {
+                "image_id": "G_01280",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01282": [
+            {
+                "image_id": "G_01282",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01283": [
+            {
+                "image_id": "G_01283",
+                "caption": "many people are dancing "
+            }
+        ],
+        "G_01305": [
+            {
+                "image_id": "G_01305",
+                "caption": "there are many houses on the road "
+            }
+        ],
+        "G_01349": [
+            {
+                "image_id": "G_01349",
+                "caption": "many people are walking on the road "
+            }
+        ],
+        "G_01391": [
+            {
+                "image_id": "G_01391",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_01452": [
+            {
+                "image_id": "G_01452",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_01455": [
+            {
+                "image_id": "G_01455",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01456": [
+            {
+                "image_id": "G_01456",
+                "caption": "a doctor is operating a patient "
+            }
+        ],
+        "G_01461": [
+            {
+                "image_id": "G_01461",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_01465": [
+            {
+                "image_id": "G_01465",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01466": [
+            {
+                "image_id": "G_01466",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_01468": [
+            {
+                "image_id": "G_01468",
+                "caption": "a group of people were walking in the street "
+            }
+        ],
+        "G_01471": [
+            {
+                "image_id": "G_01471",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_01476": [
+            {
+                "image_id": "G_01476",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_01477": [
+            {
+                "image_id": "G_01477",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_01481": [
+            {
+                "image_id": "G_01481",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_01482": [
+            {
+                "image_id": "G_01482",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_01518": [
+            {
+                "image_id": "G_01518",
+                "caption": "the water "
+            }
+        ],
+        "G_01523": [
+            {
+                "image_id": "G_01523",
+                "caption": "many cars are on the road "
+            }
+        ],
+        "G_01543": [
+            {
+                "image_id": "G_01543",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01556": [
+            {
+                "image_id": "G_01556",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_01581": [
+            {
+                "image_id": "G_01581",
+                "caption": "a woman is talking "
+            }
+        ],
+        "G_01586": [
+            {
+                "image_id": "G_01586",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_01596": [
+            {
+                "image_id": "G_01596",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01602": [
+            {
+                "image_id": "G_01602",
+                "caption": "many people are walking "
+            }
+        ],
+        "G_01604": [
+            {
+                "image_id": "G_01604",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_01638": [
+            {
+                "image_id": "G_01638",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_01648": [
+            {
+                "image_id": "G_01648",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_01658": [
+            {
+                "image_id": "G_01658",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_01662": [
+            {
+                "image_id": "G_01662",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_01664": [
+            {
+                "image_id": "G_01664",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_01692": [
+            {
+                "image_id": "G_01692",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01714": [
+            {
+                "image_id": "G_01714",
+                "caption": "a man was lying on the ground "
+            }
+        ],
+        "G_01718": [
+            {
+                "image_id": "G_01718",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_01727": [
+            {
+                "image_id": "G_01727",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_01732": [
+            {
+                "image_id": "G_01732",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01746": [
+            {
+                "image_id": "G_01746",
+                "caption": "a white car was driving on the highway "
+            }
+        ],
+        "G_01748": [
+            {
+                "image_id": "G_01748",
+                "caption": "a woman is talking "
+            }
+        ],
+        "G_01760": [
+            {
+                "image_id": "G_01760",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_01821": [
+            {
+                "image_id": "G_01821",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_01825": [
+            {
+                "image_id": "G_01825",
+                "caption": "a doctor is walking "
+            }
+        ],
+        "G_01839": [
+            {
+                "image_id": "G_01839",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01846": [
+            {
+                "image_id": "G_01846",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_01857": [
+            {
+                "image_id": "G_01857",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_01870": [
+            {
+                "image_id": "G_01870",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01873": [
+            {
+                "image_id": "G_01873",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_01880": [
+            {
+                "image_id": "G_01880",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_01891": [
+            {
+                "image_id": "G_01891",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_01941": [
+            {
+                "image_id": "G_01941",
+                "caption": "a group of people were walking on the road "
+            }
+        ],
+        "G_01948": [
+            {
+                "image_id": "G_01948",
+                "caption": "the flood in the snow "
+            }
+        ],
+        "G_01950": [
+            {
+                "image_id": "G_01950",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_01991": [
+            {
+                "image_id": "G_01991",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_01996": [
+            {
+                "image_id": "G_01996",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_02013": [
+            {
+                "image_id": "G_02013",
+                "caption": "many cars were walking on the road "
+            }
+        ],
+        "G_02034": [
+            {
+                "image_id": "G_02034",
+                "caption": "a missile is flying in the sky "
+            }
+        ],
+        "G_02055": [
+            {
+                "image_id": "G_02055",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_02063": [
+            {
+                "image_id": "G_02063",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_02081": [
+            {
+                "image_id": "G_02081",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_02119": [
+            {
+                "image_id": "G_02119",
+                "caption": "a ship is moving "
+            }
+        ],
+        "G_02133": [
+            {
+                "image_id": "G_02133",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_02134": [
+            {
+                "image_id": "G_02134",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_02143": [
+            {
+                "image_id": "G_02143",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_02148": [
+            {
+                "image_id": "G_02148",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_02162": [
+            {
+                "image_id": "G_02162",
+                "caption": "many cars are running on the road "
+            }
+        ],
+        "G_02173": [
+            {
+                "image_id": "G_02173",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_02175": [
+            {
+                "image_id": "G_02175",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_02202": [
+            {
+                "image_id": "G_02202",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_02208": [
+            {
+                "image_id": "G_02208",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_02232": [
+            {
+                "image_id": "G_02232",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_02234": [
+            {
+                "image_id": "G_02234",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_02252": [
+            {
+                "image_id": "G_02252",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_02261": [
+            {
+                "image_id": "G_02261",
+                "caption": "a man was walking on the road "
+            }
+        ],
+        "G_02280": [
+            {
+                "image_id": "G_02280",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_02293": [
+            {
+                "image_id": "G_02293",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_02307": [
+            {
+                "image_id": "G_02307",
+                "caption": "a car is walking "
+            }
+        ],
+        "G_02322": [
+            {
+                "image_id": "G_02322",
+                "caption": "many cars were parked on the road "
+            }
+        ],
+        "G_02345": [
+            {
+                "image_id": "G_02345",
+                "caption": "a doctor is walking "
+            }
+        ],
+        "G_02357": [
+            {
+                "image_id": "G_02357",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_02378": [
+            {
+                "image_id": "G_02378",
+                "caption": "a car was driving on the highway "
+            }
+        ],
+        "G_02405": [
+            {
+                "image_id": "G_02405",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_02411": [
+            {
+                "image_id": "G_02411",
+                "caption": "three people are walking "
+            }
+        ],
+        "G_02412": [
+            {
+                "image_id": "G_02412",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_02438": [
+            {
+                "image_id": "G_02438",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_02479": [
+            {
+                "image_id": "G_02479",
+                "caption": "many people are walking "
+            }
+        ],
+        "G_02484": [
+            {
+                "image_id": "G_02484",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_02495": [
+            {
+                "image_id": "G_02495",
+                "caption": "many cars were parked on the road "
+            }
+        ],
+        "G_02536": [
+            {
+                "image_id": "G_02536",
+                "caption": "a rocket is taking off "
+            }
+        ],
+        "G_02556": [
+            {
+                "image_id": "G_02556",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_02593": [
+            {
+                "image_id": "G_02593",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_02609": [
+            {
+                "image_id": "G_02609",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_02615": [
+            {
+                "image_id": "G_02615",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_02620": [
+            {
+                "image_id": "G_02620",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_02627": [
+            {
+                "image_id": "G_02627",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_02636": [
+            {
+                "image_id": "G_02636",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_02644": [
+            {
+                "image_id": "G_02644",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_02661": [
+            {
+                "image_id": "G_02661",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_02671": [
+            {
+                "image_id": "G_02671",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_02683": [
+            {
+                "image_id": "G_02683",
+                "caption": "a group of people are singing "
+            }
+        ],
+        "G_02723": [
+            {
+                "image_id": "G_02723",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_02739": [
+            {
+                "image_id": "G_02739",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_02740": [
+            {
+                "image_id": "G_02740",
+                "caption": "a man is walking "
+            }
+        ],
+        "G_02752": [
+            {
+                "image_id": "G_02752",
+                "caption": "a white car was driving on the highway "
+            }
+        ],
+        "G_02766": [
+            {
+                "image_id": "G_02766",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_02769": [
+            {
+                "image_id": "G_02769",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_02806": [
+            {
+                "image_id": "G_02806",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_02819": [
+            {
+                "image_id": "G_02819",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_02822": [
+            {
+                "image_id": "G_02822",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_02828": [
+            {
+                "image_id": "G_02828",
+                "caption": "the flood in the water "
+            }
+        ],
+        "G_02849": [
+            {
+                "image_id": "G_02849",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_02851": [
+            {
+                "image_id": "G_02851",
+                "caption": "a plane is flying in the snow "
+            }
+        ],
+        "G_02860": [
+            {
+                "image_id": "G_02860",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_02864": [
+            {
+                "image_id": "G_02864",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_02868": [
+            {
+                "image_id": "G_02868",
+                "caption": "a ship is moving "
+            }
+        ],
+        "G_02878": [
+            {
+                "image_id": "G_02878",
+                "caption": "a white car is driving on the road "
+            }
+        ],
+        "G_02901": [
+            {
+                "image_id": "G_02901",
+                "caption": "a group of people were sitting in the snow "
+            }
+        ],
+        "G_02909": [
+            {
+                "image_id": "G_02909",
+                "caption": "several cars were parked on the road "
+            }
+        ],
+        "G_02928": [
+            {
+                "image_id": "G_02928",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_02929": [
+            {
+                "image_id": "G_02929",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_02934": [
+            {
+                "image_id": "G_02934",
+                "caption": "a missile is flying in the sky "
+            }
+        ],
+        "G_02965": [
+            {
+                "image_id": "G_02965",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03002": [
+            {
+                "image_id": "G_03002",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_03020": [
+            {
+                "image_id": "G_03020",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03035": [
+            {
+                "image_id": "G_03035",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_03056": [
+            {
+                "image_id": "G_03056",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_03078": [
+            {
+                "image_id": "G_03078",
+                "caption": "a man in a suit was talking "
+            }
+        ],
+        "G_03118": [
+            {
+                "image_id": "G_03118",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_03123": [
+            {
+                "image_id": "G_03123",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03153": [
+            {
+                "image_id": "G_03153",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03170": [
+            {
+                "image_id": "G_03170",
+                "caption": "a plane is flying "
+            }
+        ],
+        "G_03195": [
+            {
+                "image_id": "G_03195",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_03202": [
+            {
+                "image_id": "G_03202",
+                "caption": "many cars are running on the road "
+            }
+        ],
+        "G_03224": [
+            {
+                "image_id": "G_03224",
+                "caption": "many people are walking "
+            }
+        ],
+        "G_03233": [
+            {
+                "image_id": "G_03233",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_03236": [
+            {
+                "image_id": "G_03236",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03242": [
+            {
+                "image_id": "G_03242",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03243": [
+            {
+                "image_id": "G_03243",
+                "caption": "many people are walking "
+            }
+        ],
+        "G_03245": [
+            {
+                "image_id": "G_03245",
+                "caption": "many people are walking "
+            }
+        ],
+        "G_03261": [
+            {
+                "image_id": "G_03261",
+                "caption": "a man dressed in black was talking "
+            }
+        ],
+        "G_03272": [
+            {
+                "image_id": "G_03272",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03276": [
+            {
+                "image_id": "G_03276",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03288": [
+            {
+                "image_id": "G_03288",
+                "caption": "a ship is flying in the sky "
+            }
+        ],
+        "G_03294": [
+            {
+                "image_id": "G_03294",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_03319": [
+            {
+                "image_id": "G_03319",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_03343": [
+            {
+                "image_id": "G_03343",
+                "caption": "a person is operating "
+            }
+        ],
+        "G_03352": [
+            {
+                "image_id": "G_03352",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_03359": [
+            {
+                "image_id": "G_03359",
+                "caption": "a man wearing a mask was talking "
+            }
+        ],
+        "G_03366": [
+            {
+                "image_id": "G_03366",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_03394": [
+            {
+                "image_id": "G_03394",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03403": [
+            {
+                "image_id": "G_03403",
+                "caption": "a group of people were clapping "
+            }
+        ],
+        "G_03448": [
+            {
+                "image_id": "G_03448",
+                "caption": "a ship is moving "
+            }
+        ],
+        "G_03491": [
+            {
+                "image_id": "G_03491",
+                "caption": "a doctor is operating a cell phone "
+            }
+        ],
+        "G_03495": [
+            {
+                "image_id": "G_03495",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_03532": [
+            {
+                "image_id": "G_03532",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03533": [
+            {
+                "image_id": "G_03533",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03537": [
+            {
+                "image_id": "G_03537",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_03558": [
+            {
+                "image_id": "G_03558",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_03602": [
+            {
+                "image_id": "G_03602",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_03620": [
+            {
+                "image_id": "G_03620",
+                "caption": "a person is walking "
+            }
+        ],
+        "G_03681": [
+            {
+                "image_id": "G_03681",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_03683": [
+            {
+                "image_id": "G_03683",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_03688": [
+            {
+                "image_id": "G_03688",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_03712": [
+            {
+                "image_id": "G_03712",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03735": [
+            {
+                "image_id": "G_03735",
+                "caption": "there are many houses on the road "
+            }
+        ],
+        "G_03759": [
+            {
+                "image_id": "G_03759",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03788": [
+            {
+                "image_id": "G_03788",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03805": [
+            {
+                "image_id": "G_03805",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_03821": [
+            {
+                "image_id": "G_03821",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_03827": [
+            {
+                "image_id": "G_03827",
+                "caption": "people are walking "
+            }
+        ],
+        "G_03841": [
+            {
+                "image_id": "G_03841",
+                "caption": "many cars are driving on the bridge "
+            }
+        ],
+        "G_03857": [
+            {
+                "image_id": "G_03857",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_03874": [
+            {
+                "image_id": "G_03874",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_03895": [
+            {
+                "image_id": "G_03895",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_03900": [
+            {
+                "image_id": "G_03900",
+                "caption": "many people are walking in the water "
+            }
+        ],
+        "G_03911": [
+            {
+                "image_id": "G_03911",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_03955": [
+            {
+                "image_id": "G_03955",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_03969": [
+            {
+                "image_id": "G_03969",
+                "caption": "several people were walking "
+            }
+        ],
+        "G_03973": [
+            {
+                "image_id": "G_03973",
+                "caption": "there are many drinks on the shelf "
+            }
+        ],
+        "G_03975": [
+            {
+                "image_id": "G_03975",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_03985": [
+            {
+                "image_id": "G_03985",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_03996": [
+            {
+                "image_id": "G_03996",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_04002": [
+            {
+                "image_id": "G_04002",
+                "caption": "there are many houses on the road "
+            }
+        ],
+        "G_04018": [
+            {
+                "image_id": "G_04018",
+                "caption": "a ship is moving "
+            }
+        ],
+        "G_04022": [
+            {
+                "image_id": "G_04022",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_04038": [
+            {
+                "image_id": "G_04038",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_04063": [
+            {
+                "image_id": "G_04063",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_04065": [
+            {
+                "image_id": "G_04065",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_04068": [
+            {
+                "image_id": "G_04068",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_04084": [
+            {
+                "image_id": "G_04084",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_04109": [
+            {
+                "image_id": "G_04109",
+                "caption": "a group of people were walking in the snow "
+            }
+        ],
+        "G_04138": [
+            {
+                "image_id": "G_04138",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_04149": [
+            {
+                "image_id": "G_04149",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_04154": [
+            {
+                "image_id": "G_04154",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_04163": [
+            {
+                "image_id": "G_04163",
+                "caption": "a missile is flying in the sky "
+            }
+        ],
+        "G_04175": [
+            {
+                "image_id": "G_04175",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04184": [
+            {
+                "image_id": "G_04184",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04202": [
+            {
+                "image_id": "G_04202",
+                "caption": "a group of people were sitting in the room "
+            }
+        ],
+        "G_04227": [
+            {
+                "image_id": "G_04227",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_04236": [
+            {
+                "image_id": "G_04236",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_04242": [
+            {
+                "image_id": "G_04242",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_04247": [
+            {
+                "image_id": "G_04247",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_04292": [
+            {
+                "image_id": "G_04292",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_04310": [
+            {
+                "image_id": "G_04310",
+                "caption": "the flood in the water "
+            }
+        ],
+        "G_04314": [
+            {
+                "image_id": "G_04314",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04331": [
+            {
+                "image_id": "G_04331",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04332": [
+            {
+                "image_id": "G_04332",
+                "caption": "a group of people were sitting in the table "
+            }
+        ],
+        "G_04340": [
+            {
+                "image_id": "G_04340",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_04343": [
+            {
+                "image_id": "G_04343",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_04344": [
+            {
+                "image_id": "G_04344",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_04349": [
+            {
+                "image_id": "G_04349",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04369": [
+            {
+                "image_id": "G_04369",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_04386": [
+            {
+                "image_id": "G_04386",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_04389": [
+            {
+                "image_id": "G_04389",
+                "caption": "a group of people were standing in the water "
+            }
+        ],
+        "G_04396": [
+            {
+                "image_id": "G_04396",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_04403": [
+            {
+                "image_id": "G_04403",
+                "caption": "a woman is talking "
+            }
+        ],
+        "G_04404": [
+            {
+                "image_id": "G_04404",
+                "caption": "two men in white were walking "
+            }
+        ],
+        "G_04417": [
+            {
+                "image_id": "G_04417",
+                "caption": "a doctor is lying on the ground "
+            }
+        ],
+        "G_04435": [
+            {
+                "image_id": "G_04435",
+                "caption": "several people are walking "
+            }
+        ],
+        "G_04448": [
+            {
+                "image_id": "G_04448",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04455": [
+            {
+                "image_id": "G_04455",
+                "caption": "a plane is flying in the snow "
+            }
+        ],
+        "G_04462": [
+            {
+                "image_id": "G_04462",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_04473": [
+            {
+                "image_id": "G_04473",
+                "caption": "a plane is flying "
+            }
+        ],
+        "G_04491": [
+            {
+                "image_id": "G_04491",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_04492": [
+            {
+                "image_id": "G_04492",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_04519": [
+            {
+                "image_id": "G_04519",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_04527": [
+            {
+                "image_id": "G_04527",
+                "caption": "the houses "
+            }
+        ],
+        "G_04535": [
+            {
+                "image_id": "G_04535",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_04537": [
+            {
+                "image_id": "G_04537",
+                "caption": "many cars are driving on the highway "
+            }
+        ],
+        "G_04575": [
+            {
+                "image_id": "G_04575",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_04586": [
+            {
+                "image_id": "G_04586",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_04605": [
+            {
+                "image_id": "G_04605",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_04624": [
+            {
+                "image_id": "G_04624",
+                "caption": "many people were walking in the snow "
+            }
+        ],
+        "G_04636": [
+            {
+                "image_id": "G_04636",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04644": [
+            {
+                "image_id": "G_04644",
+                "caption": "a car was driving on the highway "
+            }
+        ],
+        "G_04666": [
+            {
+                "image_id": "G_04666",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_04674": [
+            {
+                "image_id": "G_04674",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_04678": [
+            {
+                "image_id": "G_04678",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_04689": [
+            {
+                "image_id": "G_04689",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_04699": [
+            {
+                "image_id": "G_04699",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_04721": [
+            {
+                "image_id": "G_04721",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_04736": [
+            {
+                "image_id": "G_04736",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_04761": [
+            {
+                "image_id": "G_04761",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04763": [
+            {
+                "image_id": "G_04763",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_04793": [
+            {
+                "image_id": "G_04793",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_04801": [
+            {
+                "image_id": "G_04801",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04802": [
+            {
+                "image_id": "G_04802",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_04807": [
+            {
+                "image_id": "G_04807",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_04808": [
+            {
+                "image_id": "G_04808",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_04814": [
+            {
+                "image_id": "G_04814",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_04833": [
+            {
+                "image_id": "G_04833",
+                "caption": "a group of soldiers were walking "
+            }
+        ],
+        "G_04853": [
+            {
+                "image_id": "G_04853",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_04876": [
+            {
+                "image_id": "G_04876",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_04879": [
+            {
+                "image_id": "G_04879",
+                "caption": "the plane is taking off "
+            }
+        ],
+        "G_04898": [
+            {
+                "image_id": "G_04898",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_04907": [
+            {
+                "image_id": "G_04907",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_04909": [
+            {
+                "image_id": "G_04909",
+                "caption": "the doctor is giving an injection "
+            }
+        ],
+        "G_04914": [
+            {
+                "image_id": "G_04914",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_04950": [
+            {
+                "image_id": "G_04950",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_04971": [
+            {
+                "image_id": "G_04971",
+                "caption": "a group of people gathered around "
+            }
+        ],
+        "G_04975": [
+            {
+                "image_id": "G_04975",
+                "caption": "a man was lying on the bed "
+            }
+        ],
+        "G_04976": [
+            {
+                "image_id": "G_04976",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_04988": [
+            {
+                "image_id": "G_04988",
+                "caption": "a white car was driving on the highway "
+            }
+        ],
+        "G_05048": [
+            {
+                "image_id": "G_05048",
+                "caption": "a man in a suit was talking "
+            }
+        ],
+        "G_05072": [
+            {
+                "image_id": "G_05072",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05073": [
+            {
+                "image_id": "G_05073",
+                "caption": "two doctors are walking "
+            }
+        ],
+        "G_05093": [
+            {
+                "image_id": "G_05093",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_05099": [
+            {
+                "image_id": "G_05099",
+                "caption": "firefighters rescued the rescue "
+            }
+        ],
+        "G_05108": [
+            {
+                "image_id": "G_05108",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_05115": [
+            {
+                "image_id": "G_05115",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_05127": [
+            {
+                "image_id": "G_05127",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05155": [
+            {
+                "image_id": "G_05155",
+                "caption": "the flood in the water "
+            }
+        ],
+        "G_05170": [
+            {
+                "image_id": "G_05170",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_05189": [
+            {
+                "image_id": "G_05189",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_05197": [
+            {
+                "image_id": "G_05197",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_05204": [
+            {
+                "image_id": "G_05204",
+                "caption": "two cars were driving on the road "
+            }
+        ],
+        "G_05212": [
+            {
+                "image_id": "G_05212",
+                "caption": "the doctor is operating the patient "
+            }
+        ],
+        "G_05218": [
+            {
+                "image_id": "G_05218",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_05219": [
+            {
+                "image_id": "G_05219",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_05248": [
+            {
+                "image_id": "G_05248",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_05262": [
+            {
+                "image_id": "G_05262",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05274": [
+            {
+                "image_id": "G_05274",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_05294": [
+            {
+                "image_id": "G_05294",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_05310": [
+            {
+                "image_id": "G_05310",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_05314": [
+            {
+                "image_id": "G_05314",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_05330": [
+            {
+                "image_id": "G_05330",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05371": [
+            {
+                "image_id": "G_05371",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_05380": [
+            {
+                "image_id": "G_05380",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_05397": [
+            {
+                "image_id": "G_05397",
+                "caption": "a group of people are singing "
+            }
+        ],
+        "G_05413": [
+            {
+                "image_id": "G_05413",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05424": [
+            {
+                "image_id": "G_05424",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_05480": [
+            {
+                "image_id": "G_05480",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_05501": [
+            {
+                "image_id": "G_05501",
+                "caption": "a group of people were walking in the snow "
+            }
+        ],
+        "G_05535": [
+            {
+                "image_id": "G_05535",
+                "caption": "two men were walking "
+            }
+        ],
+        "G_05549": [
+            {
+                "image_id": "G_05549",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_05571": [
+            {
+                "image_id": "G_05571",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05587": [
+            {
+                "image_id": "G_05587",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_05590": [
+            {
+                "image_id": "G_05590",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_05594": [
+            {
+                "image_id": "G_05594",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_05602": [
+            {
+                "image_id": "G_05602",
+                "caption": "many cars are driving on the ground "
+            }
+        ],
+        "G_05603": [
+            {
+                "image_id": "G_05603",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_05617": [
+            {
+                "image_id": "G_05617",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05663": [
+            {
+                "image_id": "G_05663",
+                "caption": "many people are walking "
+            }
+        ],
+        "G_05667": [
+            {
+                "image_id": "G_05667",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_05691": [
+            {
+                "image_id": "G_05691",
+                "caption": "a ship is moving "
+            }
+        ],
+        "G_05704": [
+            {
+                "image_id": "G_05704",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_05719": [
+            {
+                "image_id": "G_05719",
+                "caption": "the plane is moving "
+            }
+        ],
+        "G_05725": [
+            {
+                "image_id": "G_05725",
+                "caption": "two men are shaking hands "
+            }
+        ],
+        "G_05726": [
+            {
+                "image_id": "G_05726",
+                "caption": "the doctor is giving an injection "
+            }
+        ],
+        "G_05741": [
+            {
+                "image_id": "G_05741",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_05747": [
+            {
+                "image_id": "G_05747",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_05748": [
+            {
+                "image_id": "G_05748",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_05763": [
+            {
+                "image_id": "G_05763",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05767": [
+            {
+                "image_id": "G_05767",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_05772": [
+            {
+                "image_id": "G_05772",
+                "caption": "the trees "
+            }
+        ],
+        "G_05821": [
+            {
+                "image_id": "G_05821",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05852": [
+            {
+                "image_id": "G_05852",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_05864": [
+            {
+                "image_id": "G_05864",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_05869": [
+            {
+                "image_id": "G_05869",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_05872": [
+            {
+                "image_id": "G_05872",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_05897": [
+            {
+                "image_id": "G_05897",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_05899": [
+            {
+                "image_id": "G_05899",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_05909": [
+            {
+                "image_id": "G_05909",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_05936": [
+            {
+                "image_id": "G_05936",
+                "caption": "the flood in the water "
+            }
+        ],
+        "G_05939": [
+            {
+                "image_id": "G_05939",
+                "caption": "a man is lying on the ground "
+            }
+        ],
+        "G_05946": [
+            {
+                "image_id": "G_05946",
+                "caption": "many people are walking on the road "
+            }
+        ],
+        "G_05955": [
+            {
+                "image_id": "G_05955",
+                "caption": "the plane is moving "
+            }
+        ],
+        "G_05965": [
+            {
+                "image_id": "G_05965",
+                "caption": "a woman was talking "
+            }
+        ],
+        "G_05967": [
+            {
+                "image_id": "G_05967",
+                "caption": "several cars were parked on the road "
+            }
+        ],
+        "G_05992": [
+            {
+                "image_id": "G_05992",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_05996": [
+            {
+                "image_id": "G_05996",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_06000": [
+            {
+                "image_id": "G_06000",
+                "caption": "a woman was talking "
+            }
+        ],
+        "G_06003": [
+            {
+                "image_id": "G_06003",
+                "caption": "the doctor is operating the patient "
+            }
+        ],
+        "G_06005": [
+            {
+                "image_id": "G_06005",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_06028": [
+            {
+                "image_id": "G_06028",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_06036": [
+            {
+                "image_id": "G_06036",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06042": [
+            {
+                "image_id": "G_06042",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_06047": [
+            {
+                "image_id": "G_06047",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_06048": [
+            {
+                "image_id": "G_06048",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_06051": [
+            {
+                "image_id": "G_06051",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_06108": [
+            {
+                "image_id": "G_06108",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06114": [
+            {
+                "image_id": "G_06114",
+                "caption": "people walk in the street "
+            }
+        ],
+        "G_06117": [
+            {
+                "image_id": "G_06117",
+                "caption": "a man in a suit was talking "
+            }
+        ],
+        "G_06149": [
+            {
+                "image_id": "G_06149",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_06150": [
+            {
+                "image_id": "G_06150",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_06208": [
+            {
+                "image_id": "G_06208",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06212": [
+            {
+                "image_id": "G_06212",
+                "caption": "there are many houses "
+            }
+        ],
+        "G_06221": [
+            {
+                "image_id": "G_06221",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_06222": [
+            {
+                "image_id": "G_06222",
+                "caption": "the water "
+            }
+        ],
+        "G_06225": [
+            {
+                "image_id": "G_06225",
+                "caption": "a woman is walking "
+            }
+        ],
+        "G_06227": [
+            {
+                "image_id": "G_06227",
+                "caption": "many people were walking in the water "
+            }
+        ],
+        "G_06230": [
+            {
+                "image_id": "G_06230",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_06240": [
+            {
+                "image_id": "G_06240",
+                "caption": "a group of people are on the snow "
+            }
+        ],
+        "G_06245": [
+            {
+                "image_id": "G_06245",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06253": [
+            {
+                "image_id": "G_06253",
+                "caption": "a group of people were walking in the snow "
+            }
+        ],
+        "G_06258": [
+            {
+                "image_id": "G_06258",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_06259": [
+            {
+                "image_id": "G_06259",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06269": [
+            {
+                "image_id": "G_06269",
+                "caption": "the doctor is operating the patient "
+            }
+        ],
+        "G_06283": [
+            {
+                "image_id": "G_06283",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_06292": [
+            {
+                "image_id": "G_06292",
+                "caption": "a man dressed in black was talking "
+            }
+        ],
+        "G_06297": [
+            {
+                "image_id": "G_06297",
+                "caption": "there are many houses on the road "
+            }
+        ],
+        "G_06312": [
+            {
+                "image_id": "G_06312",
+                "caption": "a woman is talking "
+            }
+        ],
+        "G_06321": [
+            {
+                "image_id": "G_06321",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_06326": [
+            {
+                "image_id": "G_06326",
+                "caption": "a woman was talking "
+            }
+        ],
+        "G_06339": [
+            {
+                "image_id": "G_06339",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_06349": [
+            {
+                "image_id": "G_06349",
+                "caption": "a missile is flying in the sky "
+            }
+        ],
+        "G_06365": [
+            {
+                "image_id": "G_06365",
+                "caption": "many people were walking in the water "
+            }
+        ],
+        "G_06383": [
+            {
+                "image_id": "G_06383",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_06391": [
+            {
+                "image_id": "G_06391",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06410": [
+            {
+                "image_id": "G_06410",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_06438": [
+            {
+                "image_id": "G_06438",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_06440": [
+            {
+                "image_id": "G_06440",
+                "caption": "a group of people were walking in the trees "
+            }
+        ],
+        "G_06468": [
+            {
+                "image_id": "G_06468",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_06483": [
+            {
+                "image_id": "G_06483",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_06488": [
+            {
+                "image_id": "G_06488",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_06513": [
+            {
+                "image_id": "G_06513",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_06531": [
+            {
+                "image_id": "G_06531",
+                "caption": "many houses "
+            }
+        ],
+        "G_06550": [
+            {
+                "image_id": "G_06550",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06564": [
+            {
+                "image_id": "G_06564",
+                "caption": "a doctor is talking "
+            }
+        ],
+        "G_06572": [
+            {
+                "image_id": "G_06572",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_06578": [
+            {
+                "image_id": "G_06578",
+                "caption": "a woman was talking "
+            }
+        ],
+        "G_06592": [
+            {
+                "image_id": "G_06592",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_06593": [
+            {
+                "image_id": "G_06593",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_06614": [
+            {
+                "image_id": "G_06614",
+                "caption": "there are many houses on the road "
+            }
+        ],
+        "G_06620": [
+            {
+                "image_id": "G_06620",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06624": [
+            {
+                "image_id": "G_06624",
+                "caption": "a ship is flying in the sky "
+            }
+        ],
+        "G_06649": [
+            {
+                "image_id": "G_06649",
+                "caption": "a ship is moving "
+            }
+        ],
+        "G_06671": [
+            {
+                "image_id": "G_06671",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_06679": [
+            {
+                "image_id": "G_06679",
+                "caption": "many people are walking "
+            }
+        ],
+        "G_06694": [
+            {
+                "image_id": "G_06694",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_06711": [
+            {
+                "image_id": "G_06711",
+                "caption": "people are walking "
+            }
+        ],
+        "G_06726": [
+            {
+                "image_id": "G_06726",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06735": [
+            {
+                "image_id": "G_06735",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_06759": [
+            {
+                "image_id": "G_06759",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06760": [
+            {
+                "image_id": "G_06760",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06767": [
+            {
+                "image_id": "G_06767",
+                "caption": "two men were walking "
+            }
+        ],
+        "G_06776": [
+            {
+                "image_id": "G_06776",
+                "caption": "a plane is flying "
+            }
+        ],
+        "G_06783": [
+            {
+                "image_id": "G_06783",
+                "caption": "the plane is moving "
+            }
+        ],
+        "G_06793": [
+            {
+                "image_id": "G_06793",
+                "caption": "a car was driving on the road "
+            }
+        ],
+        "G_06795": [
+            {
+                "image_id": "G_06795",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_06802": [
+            {
+                "image_id": "G_06802",
+                "caption": "a man in a suit was talking "
+            }
+        ],
+        "G_06814": [
+            {
+                "image_id": "G_06814",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_06829": [
+            {
+                "image_id": "G_06829",
+                "caption": "the launch "
+            }
+        ],
+        "G_06852": [
+            {
+                "image_id": "G_06852",
+                "caption": "people are walking "
+            }
+        ],
+        "G_06883": [
+            {
+                "image_id": "G_06883",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_06887": [
+            {
+                "image_id": "G_06887",
+                "caption": "two men were walking "
+            }
+        ],
+        "G_06898": [
+            {
+                "image_id": "G_06898",
+                "caption": "many people are walking on the road "
+            }
+        ],
+        "G_06901": [
+            {
+                "image_id": "G_06901",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_06903": [
+            {
+                "image_id": "G_06903",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_06911": [
+            {
+                "image_id": "G_06911",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_06945": [
+            {
+                "image_id": "G_06945",
+                "caption": "the doctor gave the patient "
+            }
+        ],
+        "G_06951": [
+            {
+                "image_id": "G_06951",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_06964": [
+            {
+                "image_id": "G_06964",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_06976": [
+            {
+                "image_id": "G_06976",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06979": [
+            {
+                "image_id": "G_06979",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06988": [
+            {
+                "image_id": "G_06988",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_06991": [
+            {
+                "image_id": "G_06991",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_06992": [
+            {
+                "image_id": "G_06992",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_07004": [
+            {
+                "image_id": "G_07004",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_07010": [
+            {
+                "image_id": "G_07010",
+                "caption": "the flood in the woods "
+            }
+        ],
+        "G_07033": [
+            {
+                "image_id": "G_07033",
+                "caption": "a woman is talking "
+            }
+        ],
+        "G_07041": [
+            {
+                "image_id": "G_07041",
+                "caption": "many people are walking "
+            }
+        ],
+        "G_07047": [
+            {
+                "image_id": "G_07047",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07050": [
+            {
+                "image_id": "G_07050",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07060": [
+            {
+                "image_id": "G_07060",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_07096": [
+            {
+                "image_id": "G_07096",
+                "caption": "many people are walking on the road "
+            }
+        ],
+        "G_07122": [
+            {
+                "image_id": "G_07122",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_07145": [
+            {
+                "image_id": "G_07145",
+                "caption": "a missile is flying in the sky "
+            }
+        ],
+        "G_07149": [
+            {
+                "image_id": "G_07149",
+                "caption": "the rocket launch "
+            }
+        ],
+        "G_07167": [
+            {
+                "image_id": "G_07167",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_07183": [
+            {
+                "image_id": "G_07183",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07191": [
+            {
+                "image_id": "G_07191",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_07200": [
+            {
+                "image_id": "G_07200",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_07202": [
+            {
+                "image_id": "G_07202",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07207": [
+            {
+                "image_id": "G_07207",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_07240": [
+            {
+                "image_id": "G_07240",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07243": [
+            {
+                "image_id": "G_07243",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_07247": [
+            {
+                "image_id": "G_07247",
+                "caption": "a man was shoveling snow "
+            }
+        ],
+        "G_07276": [
+            {
+                "image_id": "G_07276",
+                "caption": "a ship is on the sea "
+            }
+        ],
+        "G_07287": [
+            {
+                "image_id": "G_07287",
+                "caption": "the flood in the water "
+            }
+        ],
+        "G_07307": [
+            {
+                "image_id": "G_07307",
+                "caption": "a plane is moving "
+            }
+        ],
+        "G_07317": [
+            {
+                "image_id": "G_07317",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07337": [
+            {
+                "image_id": "G_07337",
+                "caption": "a man is walking "
+            }
+        ],
+        "G_07412": [
+            {
+                "image_id": "G_07412",
+                "caption": "the doctor is giving an injection "
+            }
+        ],
+        "G_07445": [
+            {
+                "image_id": "G_07445",
+                "caption": "the firemen are fighting the fire "
+            }
+        ],
+        "G_07450": [
+            {
+                "image_id": "G_07450",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07454": [
+            {
+                "image_id": "G_07454",
+                "caption": "a man is walking "
+            }
+        ],
+        "G_07479": [
+            {
+                "image_id": "G_07479",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_07490": [
+            {
+                "image_id": "G_07490",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_07507": [
+            {
+                "image_id": "G_07507",
+                "caption": "a doctor is talking "
+            }
+        ],
+        "G_07517": [
+            {
+                "image_id": "G_07517",
+                "caption": "the flood in the woods "
+            }
+        ],
+        "G_07523": [
+            {
+                "image_id": "G_07523",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_07528": [
+            {
+                "image_id": "G_07528",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07532": [
+            {
+                "image_id": "G_07532",
+                "caption": "the plane is moving "
+            }
+        ],
+        "G_07536": [
+            {
+                "image_id": "G_07536",
+                "caption": "a man was lying on the ground "
+            }
+        ],
+        "G_07538": [
+            {
+                "image_id": "G_07538",
+                "caption": "two men are walking "
+            }
+        ],
+        "G_07553": [
+            {
+                "image_id": "G_07553",
+                "caption": "the doctor is giving an injection "
+            }
+        ],
+        "G_07554": [
+            {
+                "image_id": "G_07554",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_07556": [
+            {
+                "image_id": "G_07556",
+                "caption": "a group of people were shopping "
+            }
+        ],
+        "G_07572": [
+            {
+                "image_id": "G_07572",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_07575": [
+            {
+                "image_id": "G_07575",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_07596": [
+            {
+                "image_id": "G_07596",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_07613": [
+            {
+                "image_id": "G_07613",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07618": [
+            {
+                "image_id": "G_07618",
+                "caption": "a group of people are working "
+            }
+        ],
+        "G_07651": [
+            {
+                "image_id": "G_07651",
+                "caption": "people walk in the street "
+            }
+        ],
+        "G_07662": [
+            {
+                "image_id": "G_07662",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07673": [
+            {
+                "image_id": "G_07673",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07679": [
+            {
+                "image_id": "G_07679",
+                "caption": "the firemen are fighting the fire "
+            }
+        ],
+        "G_07683": [
+            {
+                "image_id": "G_07683",
+                "caption": "a group of people were shopping "
+            }
+        ],
+        "G_07705": [
+            {
+                "image_id": "G_07705",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_07715": [
+            {
+                "image_id": "G_07715",
+                "caption": "the flood in the water "
+            }
+        ],
+        "G_07728": [
+            {
+                "image_id": "G_07728",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_07753": [
+            {
+                "image_id": "G_07753",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_07766": [
+            {
+                "image_id": "G_07766",
+                "caption": "a baby baby "
+            }
+        ],
+        "G_07787": [
+            {
+                "image_id": "G_07787",
+                "caption": "a man was lying on the ground "
+            }
+        ],
+        "G_07811": [
+            {
+                "image_id": "G_07811",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_07830": [
+            {
+                "image_id": "G_07830",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07832": [
+            {
+                "image_id": "G_07832",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07841": [
+            {
+                "image_id": "G_07841",
+                "caption": "a group of people were walking in the snow "
+            }
+        ],
+        "G_07853": [
+            {
+                "image_id": "G_07853",
+                "caption": "the doctor is operating the patient "
+            }
+        ],
+        "G_07877": [
+            {
+                "image_id": "G_07877",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_07879": [
+            {
+                "image_id": "G_07879",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_07937": [
+            {
+                "image_id": "G_07937",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_07946": [
+            {
+                "image_id": "G_07946",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_07951": [
+            {
+                "image_id": "G_07951",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_07952": [
+            {
+                "image_id": "G_07952",
+                "caption": "a man was lying on the ground "
+            }
+        ],
+        "G_07960": [
+            {
+                "image_id": "G_07960",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_07974": [
+            {
+                "image_id": "G_07974",
+                "caption": "a doctor is giving an injection "
+            }
+        ],
+        "G_07999": [
+            {
+                "image_id": "G_07999",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_08007": [
+            {
+                "image_id": "G_08007",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08031": [
+            {
+                "image_id": "G_08031",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_08033": [
+            {
+                "image_id": "G_08033",
+                "caption": "the flood in the sky "
+            }
+        ],
+        "G_08040": [
+            {
+                "image_id": "G_08040",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_08042": [
+            {
+                "image_id": "G_08042",
+                "caption": "missile launch "
+            }
+        ],
+        "G_08051": [
+            {
+                "image_id": "G_08051",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_08065": [
+            {
+                "image_id": "G_08065",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_08078": [
+            {
+                "image_id": "G_08078",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_08105": [
+            {
+                "image_id": "G_08105",
+                "caption": "the flood in the water "
+            }
+        ],
+        "G_08114": [
+            {
+                "image_id": "G_08114",
+                "caption": "many cars are on the road "
+            }
+        ],
+        "G_08121": [
+            {
+                "image_id": "G_08121",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_08133": [
+            {
+                "image_id": "G_08133",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08142": [
+            {
+                "image_id": "G_08142",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_08147": [
+            {
+                "image_id": "G_08147",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_08157": [
+            {
+                "image_id": "G_08157",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08160": [
+            {
+                "image_id": "G_08160",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08183": [
+            {
+                "image_id": "G_08183",
+                "caption": "a plane is moving "
+            }
+        ],
+        "G_08216": [
+            {
+                "image_id": "G_08216",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_08222": [
+            {
+                "image_id": "G_08222",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08223": [
+            {
+                "image_id": "G_08223",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_08235": [
+            {
+                "image_id": "G_08235",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_08240": [
+            {
+                "image_id": "G_08240",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_08251": [
+            {
+                "image_id": "G_08251",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_08275": [
+            {
+                "image_id": "G_08275",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_08333": [
+            {
+                "image_id": "G_08333",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08348": [
+            {
+                "image_id": "G_08348",
+                "caption": "a missile is flying in the sky "
+            }
+        ],
+        "G_08352": [
+            {
+                "image_id": "G_08352",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_08387": [
+            {
+                "image_id": "G_08387",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_08395": [
+            {
+                "image_id": "G_08395",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_08410": [
+            {
+                "image_id": "G_08410",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_08440": [
+            {
+                "image_id": "G_08440",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_08444": [
+            {
+                "image_id": "G_08444",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_08448": [
+            {
+                "image_id": "G_08448",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_08491": [
+            {
+                "image_id": "G_08491",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_08493": [
+            {
+                "image_id": "G_08493",
+                "caption": "a man is lying on the ground "
+            }
+        ],
+        "G_08497": [
+            {
+                "image_id": "G_08497",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_08500": [
+            {
+                "image_id": "G_08500",
+                "caption": "several cars were driving on the snow "
+            }
+        ],
+        "G_08514": [
+            {
+                "image_id": "G_08514",
+                "caption": "a group of people were shaking hands "
+            }
+        ],
+        "G_08537": [
+            {
+                "image_id": "G_08537",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_08539": [
+            {
+                "image_id": "G_08539",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08541": [
+            {
+                "image_id": "G_08541",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_08543": [
+            {
+                "image_id": "G_08543",
+                "caption": "two men were shoveling snow "
+            }
+        ],
+        "G_08551": [
+            {
+                "image_id": "G_08551",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_08555": [
+            {
+                "image_id": "G_08555",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_08558": [
+            {
+                "image_id": "G_08558",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08574": [
+            {
+                "image_id": "G_08574",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_08579": [
+            {
+                "image_id": "G_08579",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_08590": [
+            {
+                "image_id": "G_08590",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_08601": [
+            {
+                "image_id": "G_08601",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08602": [
+            {
+                "image_id": "G_08602",
+                "caption": "a man in a suit was talking "
+            }
+        ],
+        "G_08613": [
+            {
+                "image_id": "G_08613",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08622": [
+            {
+                "image_id": "G_08622",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_08629": [
+            {
+                "image_id": "G_08629",
+                "caption": "missile launch "
+            }
+        ],
+        "G_08655": [
+            {
+                "image_id": "G_08655",
+                "caption": "a missile is flying in the sky "
+            }
+        ],
+        "G_08689": [
+            {
+                "image_id": "G_08689",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08694": [
+            {
+                "image_id": "G_08694",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08703": [
+            {
+                "image_id": "G_08703",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_08725": [
+            {
+                "image_id": "G_08725",
+                "caption": "the flood in the woods "
+            }
+        ],
+        "G_08741": [
+            {
+                "image_id": "G_08741",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08751": [
+            {
+                "image_id": "G_08751",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_08763": [
+            {
+                "image_id": "G_08763",
+                "caption": "a group of people are having a meeting "
+            }
+        ],
+        "G_08767": [
+            {
+                "image_id": "G_08767",
+                "caption": "two men were walking "
+            }
+        ],
+        "G_08775": [
+            {
+                "image_id": "G_08775",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_08777": [
+            {
+                "image_id": "G_08777",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_08789": [
+            {
+                "image_id": "G_08789",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_08792": [
+            {
+                "image_id": "G_08792",
+                "caption": "there are many houses on the bridge "
+            }
+        ],
+        "G_08796": [
+            {
+                "image_id": "G_08796",
+                "caption": "many cars are on the road "
+            }
+        ],
+        "G_08813": [
+            {
+                "image_id": "G_08813",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_08838": [
+            {
+                "image_id": "G_08838",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_08859": [
+            {
+                "image_id": "G_08859",
+                "caption": "the plane is flying "
+            }
+        ],
+        "G_08899": [
+            {
+                "image_id": "G_08899",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_08922": [
+            {
+                "image_id": "G_08922",
+                "caption": "a white car is moving "
+            }
+        ],
+        "G_08926": [
+            {
+                "image_id": "G_08926",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_08930": [
+            {
+                "image_id": "G_08930",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_08940": [
+            {
+                "image_id": "G_08940",
+                "caption": "a group of people were talking "
+            }
+        ],
+        "G_08952": [
+            {
+                "image_id": "G_08952",
+                "caption": "people are walking "
+            }
+        ],
+        "G_08972": [
+            {
+                "image_id": "G_08972",
+                "caption": "a group of people were sitting at the table "
+            }
+        ],
+        "G_08979": [
+            {
+                "image_id": "G_08979",
+                "caption": "a car was driving on the road "
+            }
+        ],
+        "G_08986": [
+            {
+                "image_id": "G_08986",
+                "caption": "the doctor is giving an injection "
+            }
+        ],
+        "G_08996": [
+            {
+                "image_id": "G_08996",
+                "caption": "there are a lot of paper "
+            }
+        ],
+        "G_08997": [
+            {
+                "image_id": "G_08997",
+                "caption": "a ship is flying in the sky "
+            }
+        ],
+        "G_08999": [
+            {
+                "image_id": "G_08999",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_09007": [
+            {
+                "image_id": "G_09007",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09020": [
+            {
+                "image_id": "G_09020",
+                "caption": "a man is being interviewed "
+            }
+        ],
+        "G_09041": [
+            {
+                "image_id": "G_09041",
+                "caption": "a man was lying on the ground "
+            }
+        ],
+        "G_09048": [
+            {
+                "image_id": "G_09048",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09078": [
+            {
+                "image_id": "G_09078",
+                "caption": "the doctor is operating the patient "
+            }
+        ],
+        "G_09083": [
+            {
+                "image_id": "G_09083",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_09085": [
+            {
+                "image_id": "G_09085",
+                "caption": "a doctor is talking "
+            }
+        ],
+        "G_09091": [
+            {
+                "image_id": "G_09091",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_09098": [
+            {
+                "image_id": "G_09098",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_09111": [
+            {
+                "image_id": "G_09111",
+                "caption": "the doctor is operating the patient "
+            }
+        ],
+        "G_09129": [
+            {
+                "image_id": "G_09129",
+                "caption": "a group of people were dancing "
+            }
+        ],
+        "G_09142": [
+            {
+                "image_id": "G_09142",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_09149": [
+            {
+                "image_id": "G_09149",
+                "caption": "many cars are on the road "
+            }
+        ],
+        "G_09166": [
+            {
+                "image_id": "G_09166",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_09181": [
+            {
+                "image_id": "G_09181",
+                "caption": "the doctor is moving "
+            }
+        ],
+        "G_09200": [
+            {
+                "image_id": "G_09200",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_09215": [
+            {
+                "image_id": "G_09215",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_09216": [
+            {
+                "image_id": "G_09216",
+                "caption": "a group of people were clapping "
+            }
+        ],
+        "G_09221": [
+            {
+                "image_id": "G_09221",
+                "caption": "a plane is moving "
+            }
+        ],
+        "G_09237": [
+            {
+                "image_id": "G_09237",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_09252": [
+            {
+                "image_id": "G_09252",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09267": [
+            {
+                "image_id": "G_09267",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_09272": [
+            {
+                "image_id": "G_09272",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_09280": [
+            {
+                "image_id": "G_09280",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_09289": [
+            {
+                "image_id": "G_09289",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09300": [
+            {
+                "image_id": "G_09300",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_09328": [
+            {
+                "image_id": "G_09328",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_09333": [
+            {
+                "image_id": "G_09333",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_09338": [
+            {
+                "image_id": "G_09338",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_09339": [
+            {
+                "image_id": "G_09339",
+                "caption": "two women are walking "
+            }
+        ],
+        "G_09364": [
+            {
+                "image_id": "G_09364",
+                "caption": "the firemen are working "
+            }
+        ],
+        "G_09373": [
+            {
+                "image_id": "G_09373",
+                "caption": "a plane is flying in the sea "
+            }
+        ],
+        "G_09391": [
+            {
+                "image_id": "G_09391",
+                "caption": "a group of people were walking in the snow "
+            }
+        ],
+        "G_09403": [
+            {
+                "image_id": "G_09403",
+                "caption": "there are a lot of goods "
+            }
+        ],
+        "G_09424": [
+            {
+                "image_id": "G_09424",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_09445": [
+            {
+                "image_id": "G_09445",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_09459": [
+            {
+                "image_id": "G_09459",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09478": [
+            {
+                "image_id": "G_09478",
+                "caption": "a white car was driving down the road "
+            }
+        ],
+        "G_09482": [
+            {
+                "image_id": "G_09482",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09488": [
+            {
+                "image_id": "G_09488",
+                "caption": "a group of people are dancing "
+            }
+        ],
+        "G_09506": [
+            {
+                "image_id": "G_09506",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_09514": [
+            {
+                "image_id": "G_09514",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_09525": [
+            {
+                "image_id": "G_09525",
+                "caption": "a man dressed in black was talking "
+            }
+        ],
+        "G_09565": [
+            {
+                "image_id": "G_09565",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_09582": [
+            {
+                "image_id": "G_09582",
+                "caption": "a ship is flying in the sky "
+            }
+        ],
+        "G_09601": [
+            {
+                "image_id": "G_09601",
+                "caption": "many cars are running on the road "
+            }
+        ],
+        "G_09604": [
+            {
+                "image_id": "G_09604",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_09628": [
+            {
+                "image_id": "G_09628",
+                "caption": "there are many cars on the road "
+            }
+        ],
+        "G_09630": [
+            {
+                "image_id": "G_09630",
+                "caption": "a ship is flying in the sky "
+            }
+        ],
+        "G_09659": [
+            {
+                "image_id": "G_09659",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_09673": [
+            {
+                "image_id": "G_09673",
+                "caption": "a group of people were walking in the snow "
+            }
+        ],
+        "G_09678": [
+            {
+                "image_id": "G_09678",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09689": [
+            {
+                "image_id": "G_09689",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_09690": [
+            {
+                "image_id": "G_09690",
+                "caption": "a person is operating the phone "
+            }
+        ],
+        "G_09693": [
+            {
+                "image_id": "G_09693",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09695": [
+            {
+                "image_id": "G_09695",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_09697": [
+            {
+                "image_id": "G_09697",
+                "caption": "a doctor is talking "
+            }
+        ],
+        "G_09716": [
+            {
+                "image_id": "G_09716",
+                "caption": "a man was lying on the ground "
+            }
+        ],
+        "G_09734": [
+            {
+                "image_id": "G_09734",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_09743": [
+            {
+                "image_id": "G_09743",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_09789": [
+            {
+                "image_id": "G_09789",
+                "caption": "two men were shaking hands "
+            }
+        ],
+        "G_09809": [
+            {
+                "image_id": "G_09809",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09820": [
+            {
+                "image_id": "G_09820",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_09828": [
+            {
+                "image_id": "G_09828",
+                "caption": "a group of people are walking "
+            }
+        ],
+        "G_09830": [
+            {
+                "image_id": "G_09830",
+                "caption": "a man is shoveling snow "
+            }
+        ],
+        "G_09839": [
+            {
+                "image_id": "G_09839",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09846": [
+            {
+                "image_id": "G_09846",
+                "caption": "the flood in the house "
+            }
+        ],
+        "G_09863": [
+            {
+                "image_id": "G_09863",
+                "caption": "a missile is flying in the sky "
+            }
+        ],
+        "G_09867": [
+            {
+                "image_id": "G_09867",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09869": [
+            {
+                "image_id": "G_09869",
+                "caption": "a plane is sailing on the sea "
+            }
+        ],
+        "G_09880": [
+            {
+                "image_id": "G_09880",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09896": [
+            {
+                "image_id": "G_09896",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_09922": [
+            {
+                "image_id": "G_09922",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_09928": [
+            {
+                "image_id": "G_09928",
+                "caption": "a plane is moving "
+            }
+        ],
+        "G_09945": [
+            {
+                "image_id": "G_09945",
+                "caption": "the plane is moving "
+            }
+        ],
+        "G_09978": [
+            {
+                "image_id": "G_09978",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09980": [
+            {
+                "image_id": "G_09980",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_09981": [
+            {
+                "image_id": "G_09981",
+                "caption": "a group of people were sitting in the room "
+            }
+        ],
+        "G_09990": [
+            {
+                "image_id": "G_09990",
+                "caption": "the plane is flying in the sky "
+            }
+        ],
+        "G_09991": [
+            {
+                "image_id": "G_09991",
+                "caption": "many cars were driving on the road "
+            }
+        ],
+        "G_09998": [
+            {
+                "image_id": "G_09998",
+                "caption": "there are many people in the snow "
+            }
+        ],
+        "G_10029": [
+            {
+                "image_id": "G_10029",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_10037": [
+            {
+                "image_id": "G_10037",
+                "caption": "several cars were driving on the road "
+            }
+        ],
+        "G_10038": [
+            {
+                "image_id": "G_10038",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_10051": [
+            {
+                "image_id": "G_10051",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_10052": [
+            {
+                "image_id": "G_10052",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_10061": [
+            {
+                "image_id": "G_10061",
+                "caption": "a group of people were shaking hands "
+            }
+        ],
+        "G_10063": [
+            {
+                "image_id": "G_10063",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_10084": [
+            {
+                "image_id": "G_10084",
+                "caption": "a car was driving on the road "
+            }
+        ],
+        "G_10085": [
+            {
+                "image_id": "G_10085",
+                "caption": "the trees "
+            }
+        ],
+        "G_10102": [
+            {
+                "image_id": "G_10102",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_10112": [
+            {
+                "image_id": "G_10112",
+                "caption": "a woman was talking "
+            }
+        ],
+        "G_10117": [
+            {
+                "image_id": "G_10117",
+                "caption": "many cars were parked on the road "
+            }
+        ],
+        "G_10123": [
+            {
+                "image_id": "G_10123",
+                "caption": "many cars were parked on the road "
+            }
+        ],
+        "G_10132": [
+            {
+                "image_id": "G_10132",
+                "caption": "a missile was launched "
+            }
+        ],
+        "G_10139": [
+            {
+                "image_id": "G_10139",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_10161": [
+            {
+                "image_id": "G_10161",
+                "caption": "there are many houses "
+            }
+        ],
+        "G_10172": [
+            {
+                "image_id": "G_10172",
+                "caption": "there are many houses on the mountains "
+            }
+        ],
+        "G_10179": [
+            {
+                "image_id": "G_10179",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_10209": [
+            {
+                "image_id": "G_10209",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_10223": [
+            {
+                "image_id": "G_10223",
+                "caption": "a ship is sailing on the sea "
+            }
+        ],
+        "G_10224": [
+            {
+                "image_id": "G_10224",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_10240": [
+            {
+                "image_id": "G_10240",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_10271": [
+            {
+                "image_id": "G_10271",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_10282": [
+            {
+                "image_id": "G_10282",
+                "caption": "a group of people were moving "
+            }
+        ],
+        "G_10291": [
+            {
+                "image_id": "G_10291",
+                "caption": "a man dressed in white was talking "
+            }
+        ],
+        "G_10297": [
+            {
+                "image_id": "G_10297",
+                "caption": "a man is talking "
+            }
+        ],
+        "G_10303": [
+            {
+                "image_id": "G_10303",
+                "caption": "a ship is flying in the sky "
+            }
+        ],
+        "G_10304": [
+            {
+                "image_id": "G_10304",
+                "caption": "a man was lying on the ground "
+            }
+        ],
+        "G_10333": [
+            {
+                "image_id": "G_10333",
+                "caption": "a ship is driving on the sea "
+            }
+        ],
+        "G_10336": [
+            {
+                "image_id": "G_10336",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_10340": [
+            {
+                "image_id": "G_10340",
+                "caption": "a man was talking "
+            }
+        ],
+        "G_10343": [
+            {
+                "image_id": "G_10343",
+                "caption": "a doctor is walking "
+            }
+        ],
+        "G_10357": [
+            {
+                "image_id": "G_10357",
+                "caption": "a group of people were walking in the water "
+            }
+        ],
+        "G_10360": [
+            {
+                "image_id": "G_10360",
+                "caption": "a man was lying on the ground "
+            }
+        ],
+        "G_10367": [
+            {
+                "image_id": "G_10367",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_10392": [
+            {
+                "image_id": "G_10392",
+                "caption": "many people are walking in the street "
+            }
+        ],
+        "G_10407": [
+            {
+                "image_id": "G_10407",
+                "caption": "the flood in the water "
+            }
+        ],
+        "G_10414": [
+            {
+                "image_id": "G_10414",
+                "caption": "a plane is flying in the sky "
+            }
+        ],
+        "G_10425": [
+            {
+                "image_id": "G_10425",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_10453": [
+            {
+                "image_id": "G_10453",
+                "caption": "a woman is talking "
+            }
+        ],
+        "G_10465": [
+            {
+                "image_id": "G_10465",
+                "caption": "many cars are driving on the road "
+            }
+        ],
+        "G_10491": [
+            {
+                "image_id": "G_10491",
+                "caption": "a man is making rice "
+            }
+        ],
+        "G_10494": [
+            {
+                "image_id": "G_10494",
+                "caption": "a group of people were walking "
+            }
+        ],
+        "G_10498": [
+            {
+                "image_id": "G_10498",
+                "caption": "a group of people were walking "
+            }
+        ]
+    }
+}

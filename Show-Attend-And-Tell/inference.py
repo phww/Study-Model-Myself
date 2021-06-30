@@ -199,4 +199,4 @@ def main(img_root, model_path, bean_width=5, k=8):
 
 if __name__ == '__main__':
     main(img_root="/home/ph/Dataset/VideoCaption/generateImgs/test",
-         model_path="./check_point_fusion_captions_256/best.pth", bean_width=100, k=8)  # 3060 bean_width=3000时爆显存了
+         model_path="./check_point5/best.pth", bean_width=100, k=1)  # 3060 bean_width=3000时爆显存了
