@@ -305,7 +305,9 @@ def buildVocab(original_text_path="./video/video_demo/demo.json", threshold=0):
 
 3. 每个caption的长度不一，需要为每个batch_size的captions做填充：以该批次captions中最长的长度为基础，填充所有caption。为此需要在继承Pytorch的Dataset时重写collect_fn()
 
-   比如有两句句子：“I Love Coding”，“I Study Artificial Intelligence In SEU”。因此需要将第一个句子填充为"I Love Coding \<pad> \<pad> \<pad>"
+   比如有两句句子：“I Love Coding”，“I Study Artificial Intelligence In SEU”。因此需要将第一个句子填充为"I Love Coding \<pad> \<pad> \<pad>"，以下是重写collect_fn()后得到的效果：
+   
+   ![collect_fn](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/collect_fn.png)
 
 #### **将多帧图像数据融合为一个数据**
 
@@ -485,6 +487,10 @@ def get_loader(vocab_path, image_root, caption_path, batch_size, transforms, use
 
 ## 四、搭建网络
 
+**整儿网络的预览**
+
+![image-20210704150829580](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/image-20210704150829580.png)
+
 ### 1.CNN模块
 
 #### **目的**
@@ -564,13 +570,235 @@ class CNNEncoder(nn.Module):
 
 ### 2.Attention模块
 
-**目的**
+#### **目的**
 
-CNN模块的输出为：$a=\{a_1,...,a_L\}, a_i\in R^D$，而RNN网络每个时间步的隐藏态为$h=\{h_1,...h_t\}$。对于每个隐藏态
+在原论文中attention机制分为hard attention和soft attention。本实践只使用soft attention。attention 模块可以为CNN模块输出的每个分量$a=\{a_1,...,a_L\}, a_i\in R^D$生成对应的权重，**代表第i个位置对生成下一个词的重要性**。设权重为$a_i$,则attention模块最终输出**语义向量(context vector)**$\hat{z_t}=\sum_{i=1}^L{{a_i}*{\alpha_i}}$。即将语义向量就是将CNN提取的特征加权。
 
-CNN模块输出的特征为
+#### **Attention机制**
 
-五、训练
+那么如何加权？设CNN模块的输出为：$a=\{a_1,...,a_L\}, a_i\in R^D$，而RNN网络每个时间步的隐藏态为$h=\{h_1,...h_t\}$。为此可以定义一个**MLP**网络$f_{att}$来处理这两种数据，让他们产生联系。因此令:$e_{ti}=f_{att}(a_i,h_{t-1})$，之后归一化$e_{ti}$，最终定义attension为$\alpha_{ti}=\frac{exp(e_{ti})}{\sum_{k=1}^L exp(e_{tk})}$。
 
-**beam search(束搜索)**
+#### **代码实现**
+
+```python
+class Attention(nn.Module):
+    """注意力模块：通过CNN提取的feature map和RNN每个隐藏态的关系得到attention权重，为feature map的每个像素加权"""
+
+    def __init__(self, att_dim, encoder_out_dim, decoder_dim):
+        super(Attention, self).__init__()
+        # 统一CNN输出、rnn隐藏态的特征向量的长度为att_dim
+        self.encoder_att = nn.Linear(encoder_out_dim, att_dim)
+        self.hidden_att = nn.Linear(decoder_dim, att_dim)
+        # 将attention的特征维度降为1
+        self.full_att = nn.Linear(att_dim, 1)
+        # relu激活后使用softmax将attention权重归一化，这样权重之和为1。才符合权重的概念
+        self.relu = nn.ReLU()
+        self.softmax = nn.Softmax(dim=1)
+
+    def forward(self, encoder_out, rnn_hidden_state):
+        """
+        Args:
+            encoder_out: CNN编码器提取的图像特征,shape"B, 14x14, 2048".
+                这里将H和W维度压缩到了一起。可以理解为：特征图有14*14个像素，每个像素的特征向量的维度为2048
+            rnn_hidden_state: RNN解码器的隐藏态，shape"B, 2048"
+
+        Returns:
+            encoder_out_weighted: 加了权的图像特征，shape"B, 2048"
+            att_weight：权重矩阵，用于可视化网络进行推断时更关注原始图像的哪个部分（像素）,shape“B, 14*14”
+
+        """
+        encoder_att = self.encoder_att(encoder_out)
+        # 下面要求和先扩充对应的维度
+        rnn_hidden_att = self.hidden_att(rnn_hidden_state).unsqueeze(dim=1)
+        # 经过full_att后输出形状为"B, 14x14, 1"，最后的1我们将其压缩掉
+        att = self.full_att(self.relu(encoder_att + rnn_hidden_att)).squeeze(dim=2)
+        # 归一化的attention才能称为权重，其shape"B, 14*14"
+        att_weight = self.softmax(att)
+        # 加权CNN提取的特征,因为encoder_out.shape=(B, 14*14, 2048),而权重shape=(B, 14*14)
+        # 因此权重要先在最后加一个维度，最终加权输出形状为(B, 2048)
+        encoder_out_weighted = (encoder_out * att_weight.unsqueeze(dim=2)).sum(dim=1)
+        return encoder_out_weighted, att_weight
+```
+
+
+
+### 3.LSTM解码模块
+
+在训练阶段采用导师驱动（teacher force）的方式训练模型。LSTM网络**初始的$h_0$和$c_0$，**由CNN模块输出的特征图确定。每个时间步，将**加权过后的融合特征和ground truth在此时刻对应的词向量**送入LSTM cell。具体实现见下图：
+
+![image-20210704150719960](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/image-20210704150719960.png)
+
+#### 代码实现
+
+```python
+class RNNDecoderWithAttention(nn.Module):
+    def __init__(self, att_dim, embed_dim, decoder_dim, vocab_size, encoder_dim=2048, dropout=0.5):
+        super(RNNDecoderWithAttention, self).__init__()
+        self.att_dim = att_dim
+        self.embed_dim = embed_dim
+        self.decoder_dim = decoder_dim
+        self.encoder_dim = encoder_dim
+        self.vocab_size = vocab_size
+        # attention模块
+        self.attention = Attention(att_dim, encoder_out_dim=encoder_dim, decoder_dim=decoder_dim)
+        # 词嵌入模块
+        self.embedding = nn.Embedding(vocab_size, embed_dim)
+        self.dropout = nn.Dropout(p=dropout)
+        # lstm模块
+        self.lstm_pre_step = nn.LSTMCell(input_size=encoder_dim + embed_dim, hidden_size=decoder_dim)
+        self.init_h = nn.Linear(encoder_dim, decoder_dim)
+        self.init_c = nn.Linear(encoder_dim, decoder_dim)
+        self.f_beta = nn.Linear(decoder_dim, encoder_dim)  # 用于构建gate gate
+        self.sigmoid = nn.Sigmoid()
+        self.fc = nn.Linear(decoder_dim, vocab_size)  # 用于将隐藏态h转换为当前时刻预测的词向量
+        # 初始化词嵌入层和全连接层的参数
+        self._init_weights()
+
+    def _init_weights(self):
+        self.embedding.weight.data.uniform_(-0.1, 0.1)
+        self.fc.bias.data.fill_(0)
+        self.fc.weight.data.uniform_(-0.1, 0.1)
+
+    def init_hidden_state(self, encoder_out):
+        """
+        RNN初始状态的h0与c0定义为CNN模块输出的feature map
+        在第二个维度上的平均值，并且用线性映射将特征向量的维
+        度映射到decoder_dim的维度
+        """
+        mean = encoder_out.mean(dim=1)
+        h0 = self.init_h(mean)
+        c0 = self.init_c(mean)
+        return h0, c0
+
+    def forward(self, encoder_out, captions_gt, captions_length):
+        """
+        Args:
+            encoder_out: CNN提取的特征图. shape"B, 14, 14, 2048"
+            captions_gt: 预处理过后的caption的ground truth. shape"B, max(captions_length), vocab_size"
+                在数据读取阶段对caption的处理：对一批原始的captions，先用vocab将它们映射为对应字符的idx，然后按
+                它们的长度从大到小排序，并在每个caption的头尾加上特殊的token"<start>"和"<end>",最后用"<pad>"
+                填充其他长度不够的caption。即"i love coding"->"<start> "i love coding <end><pad>..."
+                -> "1 2 3 4 0 0 0..."
+            captions_length: shape“B，”
+                一个批次的captions，未被填充前的长度。包括<start>和<end>两个token。
+
+        Returns:
+            pred_word_vec: 每个批次网络预测的词向量 shape"B, max(decode_length), vocab_size"
+            caption_gt: shape"B, max(decode_length)+1"
+            decode_length: shape"B,"
+            att_weights: shape"B, 196"
+
+        """
+        batch_size = encoder_out.size(0)
+        # 词嵌入
+        caption_gt = captions_gt.to(dtype=torch.long)
+        caption_embed = self.embedding(caption_gt)  # "B, max(captions_length), embed_dim"
+        # 展开特征图shape “B, 14, 14, 2048”->“B, 14*14, 2048”
+        encoder_out = encoder_out.view(batch_size, -1, self.encoder_dim)
+        pixels = encoder_out.size(1)  # 196
+        # 初始的h0和c0
+        h, c = self.init_hidden_state(encoder_out)  # "B, encoder_dim"
+
+        # 原始句子长度需要减去"<start>"token
+        decode_length = [c - 1 for c in captions_length]
+        max_length = max(decode_length)
+        # LSTM
+        pred_word_vec = torch.zeros(batch_size, max_length, self.vocab_size)
+        att_weights = torch.zeros(batch_size, max_length, pixels)
+
+        for t in range(max_length):
+            # 每个时刻只计算原始句子长度比当前时刻小的句子
+            batch_size_t = sum([l > t for l in decode_length])
+            # 使用t-1时刻的隐藏态h与CNN提取的feature map计算attention。并使用这个att加权feature map
+            att_weighted_encoder_out, att_weight = self.attention(encoder_out[:batch_size_t], h[:batch_size_t])
+            gate = self.sigmoid(self.f_beta(h[:batch_size_t]))
+            att_weighted_encoder_out *= gate
+            # 更新t时刻的h和"记忆细胞"c
+            # lstm每一时刻的输入为：加了t时刻attention权重的CNN提取的feature map（B_t，2048）
+            # 和该时刻应该输入的caption(B_t,decoder_dim).两者堆叠出来的特征(B_t, 2048 + decoder_dim)
+            h, c = self.lstm_pre_step(torch.cat([caption_embed[:batch_size_t, t, :], att_weighted_encoder_out], dim=1)
+                                      , (h[:batch_size_t], c[:batch_size_t]))
+            # 用t时刻的h预测
+            preds = self.fc(self.dropout(h))  # B, vocab_size
+            # 保存每个时刻的结果
+            pred_word_vec[:batch_size_t, t, :] = preds
+            att_weights[:batch_size_t, t, :] = att_weight
+        return pred_word_vec, caption_gt, decode_length, att_weights
+```
+
+## 五、训练和推断
+
+训练代码见./train.py。推断代码见：./inference.py
+
+#### 1.**模型与调参**
+
+使用如下的参数训练50epoch后的模型最终取得了最好的效果
+
+```python
+batch_size_train:5
+batch_size_val:5
+encoder_init_lr:0.0001
+decoder_init_lr:0.0001
+att_dim:512
+decoder_dim:512
+embed_dim:512
+use_fusion:True
+k=8
+```
+
+- 首先是完全使用Show Attend And Tell 中的模型，即每个视频提取8帧图片，然后为这8帧都生成一句描述。最后从这8句描述中选择一句作为整个视频的描述。其中选择方式有：选第一帧的描述，选最长的描述和随机选择一个描述。经实验选择第一帧图生成的描述作整个视频的描述效果最好，推测原因是人为标定数据集时，将大多数描述都集中在视频的开始片段。以这种方法训练的模型在竞赛中经过调参能取得0.207左右的成绩。
+- 使用mean fusion的方式将8帧图片经过CNN后生成的特征融合。然后使用这一融合特征生成一句描述作为整个视频的描述。该方法经过调参后能够取得0.227左右的成绩。但是该方法的数据单位为视频不是帧，因此只有1900个训练集。导致该方法非常容易过拟合且在训练集和测试集上的损失曲线都过早的收敛。
+
+#### 2.推断
+
+![image-20210704151720412](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/image-20210704151720412.png)
+
+在推断时，LSTM模块不使用训练阶段的"导师驱动"模式而是使用“free run mode”。因此不能直接使用事先定义的LSTM模块进行推断，需要将LSTM模块中的各种子模块单独取出从新组合，以进行推断。同时，使用“free run mode”进行推断，得到的答案是不唯一的。为此在推断阶段，很容易想到两种搜索"答案"的方法：**贪心和穷举**。
+
+**贪心和穷举搜索**：设t时刻推断出来的词向量的分布情况为$p(y_t|X,y_1,y2,...y_{t-1})$，一般这个数值的形状为（1，字典大小），比如字典中就3个词i，love，coding。对应的概率分布为（0.5,0.3, 0.2）。则贪心搜索会选择概率最大的词作为t时刻推断出来的$y_t$。不断推进时间步，最终得到的文字序列中的每个位置上的词都是该时刻概率最大的词。穷举顾名思义，每个时间步的所有概率的词都要考虑，这其实是一个**广度优先搜索（BFS）**的过程。**穷举时间复杂度太高**首先淘汰。而**贪心搜索**可以认为是每一个词都取最优，而对于最后推断出来的句子，这种**局部最优不一定是全局最优**（暂时没有证明，但是我的实验结果确实是符合这一现象的）。为此需要使用**beam search(束搜索)**算法来高效的搜索出高质量的描述。[参考文档](https://github.com/phww/Study-Model-Myself/blob/main/Show-Attend-And-Tell/markdown/NLP%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95Beam%20Search%EF%BC%88%E6%9D%9F%E6%90%9C%E7%B4%A2%EF%BC%89.md)
+
+
+
+## 六、结果与总结
+
+
+
+#### 1.竞赛结果
+
+![image-20210704153901009](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/image-20210704153901009.png)
+
+我们的模型最终取得了第五（共35个队伍）的成绩，在几个评分指标中。由于我们的模型只考虑了BLEU4，所以BLEU4指标比较高。而其他指标均没有考虑，导致其他指标得分几乎垫底。
+
+#### **2.最优模型结果**
+
+- 每个epoch训练集和验证集上的平均loss：红线为验证集，蓝线为训练集。
+
+  ![avg_epoch_loss (1)](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/avg_epoch_loss (1).svg)
+
+  可以看出模型在20、30epoch后就已经过拟合了。且在训练集和测试上均在40epoch左右收敛
+
+- 验证集上的BLEU4指标
+
+  ![eval_bleu](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/eval_bleu.svg)
+
+  最大bleu4也就0.06左右，但是此时的模型已经严重过拟合。在800个测试集上只会重复从5、6个句子推断一个作为最终结果。最终在竞赛中能取得0.16左右的成绩。部分结果如下：
+
+  ![image-20210704153228059](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/image-20210704153228059.png)
+
+  最后使用epoch30的模型继续训练调参，最终得到bleu4在0.056左右的模型。此模型推断出来的描述就要多样性一些，且最后在竞赛中取得了0.227的成绩。部分推断结果如下：
+
+  ![image-20210704152920613](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/image-20210704152920613.png)
+
+![image-20210704152934737](https://pic-1305686174.cos.ap-nanjing.myqcloud.com/image-20210704152934737.png)
+
+#### 3.**总结**
+
+**不足**
+
+- 本实践虽然魔改了Show Attend and Tell这篇论文中的模型，但是使用融合的特征导致数据集太小。因此训练模型时非常容易过拟合。而且当时时间和计算设备有限，也没有使用样本足够丰富的MSR-VTT数据集预训练模型，然后在使用自己的模型fine turn。
+- 在融合特征时，仅仅简单的使用取“平均”的方法融合特征。没有使用到帧与帧之间的时序信息。据了解，高分模型在提取特征时使用了“3维卷积来处理一个视频中多帧的图片”。
+
+**收获**
+
+- 学习到了很多NLP领域常用的方法：定义词典，词嵌入，基于RNN和门控RNN的语言模型，teacher forcing 和beam search算法。对NLP的模型开发有了更直观的认识。
 
