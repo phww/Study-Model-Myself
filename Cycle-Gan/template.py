@@ -70,7 +70,6 @@ class TemplateModel:
         # 检测摸板的初始状态，可以在这加上很多在训练之前的操作
         assert isinstance(self.model_list, list)
         assert isinstance(self.optimizer_list, list)
-        assert self.criterion
         assert self.train_loader
         assert self.test_loader
         assert self.device
@@ -91,9 +90,9 @@ class TemplateModel:
             self.lr_scheduler_list = [torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,
                                                                                  mode=mode,
                                                                                  factor=0.1,
-                                                                                 patience=5,
+                                                                                 patience=8,
                                                                                  cooldown=5,
-                                                                                 min_lr=1e-9,
+                                                                                 min_lr=1e-7,
                                                                                  verbose=True)
                                       for optimizer in self.optimizer_list]
 
@@ -103,7 +102,7 @@ class TemplateModel:
             logger.clean()
         sys.stdout = logger
         print(time.strftime("%Y-%m-%d::%H-%M-%S"))
-        self.print_all_member()
+
         # 如果有，打印arg
         if arg is not None:
             print(15 * "=", "args", 15 * "=")
@@ -117,7 +116,7 @@ class TemplateModel:
         for model in self.model_list:
             model.to(self.device)
 
-    def load_state(self, fname, optim=True, lr_list=None):
+    def load_state(self, fname, optim=True):
         # 读取保存的模型到模板之中。如果要继续训练的模型optim=True；使用最佳模型做推断optim=False
         state = torch.load(fname)
         for idx, model in enumerate(self.model_list):
@@ -128,10 +127,6 @@ class TemplateModel:
             # 恢复一些状态参数
             if optim and f'optimizer_list{idx}' in state:
                 self.optimizer_list[idx].load_state_dict(state[f'optimizer_list{idx}'])
-                # 改变先前模型的优化器中保存的学习率
-                if lr_list is not None:
-                    self.change_lr(lr_list)
-
         self.global_step = state['global_step']
         self.global_step_eval = state["global_step_eval"]
         self.epoch = state['epoch']
@@ -166,9 +161,10 @@ class TemplateModel:
             model.train()
 
         running_loss = 0.0
-        all_avg_loss = 0.0
-        cnt_loss = 0
+        all_running_loss = 0.0
+        cnt = 0
         for step, batch in enumerate(self.train_loader):
+            cnt += 1
             self.global_step += 1
             batch_loss = self.loss_per_batch(batch)
 
@@ -181,6 +177,7 @@ class TemplateModel:
             for optimizer in reversed(self.optimizer_list):
                 optimizer.step()
             running_loss += batch_loss.item()
+            all_running_loss += batch_loss.item()
 
             # 记录损失除了训练刚开始时是用此时的loss外，其他都是用一批loss的平均loss
             if self.global_step == 1:
@@ -195,8 +192,6 @@ class TemplateModel:
                 avg_loss = running_loss / (self.log_per_step * len(batch))
                 print(f"loss:{avg_loss : .5f}\t"
                       f"cur:[{(step + 1) * self.train_loader.batch_size}]\[{len(self.train_loader.dataset)}]")
-                all_avg_loss += avg_loss
-                cnt_loss += 1
                 running_loss = 0.0
 
                 # Tensorboard记录
@@ -214,7 +209,7 @@ class TemplateModel:
                                     self.writer.add_histogram('grads/' + tag, value.grad.data.cpu().numpy())
 
         # 一个epoch，训练集的全部样本的平均loss
-        avg_batch_loss = all_avg_loss / cnt_loss
+        avg_batch_loss = all_running_loss / cnt / 2
         print(f"epoch:{self.epoch}\tavg_epoch_loss:{avg_batch_loss:.5f}")
         if self.writer is not None:
             self.writer.add_scalars("avg_epoch_loss", {"train": avg_batch_loss}, self.epoch)
@@ -257,11 +252,10 @@ class TemplateModel:
 
             # 验证时的loss
             running_loss = 0.0
-            all_avg_loss = 0.0
+            all_running_loss = 0.0
             # 保存各种metric的得分
             scores = {}
             cnt = 0
-            cnt_loss = 0
             for step, batch in enumerate(self.test_loader):
                 cnt += 1
                 self.global_step_eval += 1
@@ -269,6 +263,7 @@ class TemplateModel:
                 # 计算评估时多个批次的平均loss
                 batch_loss = self.loss_per_batch(batch)
                 running_loss += batch_loss.item()
+                all_running_loss += batch_loss.item()
                 # 每self.log_per_step个step打印信息
                 if (step + 1) % self.log_per_step == 0:
                     avg_loss = running_loss / (self.log_per_step * len(batch))
@@ -276,8 +271,6 @@ class TemplateModel:
                         self.writer.add_scalar('eval_loss', avg_loss, self.global_step_eval)
                     print(f"loss:{avg_loss : .5f}\t"
                           f"cur:[{(step + 1) * self.test_loader.batch_size}]\[{len(self.test_loader.dataset)}]")
-                    all_avg_loss += avg_loss
-                    cnt_loss += 1
                     running_loss = 0.0
 
                 # 分批计算metric
@@ -294,13 +287,14 @@ class TemplateModel:
                     self.best_metric = scores  # 第一次eval时，初始化self.best_metric
 
             # 整个测试集上的平均running_loss
-            avg_batch_loss = all_avg_loss / cnt_loss
+            avg_batch_loss = all_running_loss / cnt / 2
+            # 整个测试集上的平均metric
+            for key in scores.keys():
+                scores[key] /= cnt
 
             # 根据scores[self.key_metric]来判定是否保存最佳模型.
             # self.key_metric需要在metric函数中初始化，分类任务常用self.key_metric = "acc"
             for key in scores.keys():
-                # 整个测试集上的平均metric
-                scores[key] /= cnt
                 # 更新所有metric的最佳结果到self.best_metric字典中
                 if scores[key] >= self.best_metric[key]:
                     self.best_metric[key] = scores[key]
@@ -332,10 +326,10 @@ class TemplateModel:
                         self.writer.add_scalar(f"lr_scheduler{i}",
                                                self.optimizer_list[i].param_groups[0]["lr"],
                                                self.epoch)
-                        if self.lr_scheduler_type == "metric":
-                            lr_scheduler.step(scores[self.key_metric])
-                        elif self.lr_scheduler_type == "loss":
-                            lr_scheduler.step(avg_batch_loss)
+                    if self.lr_scheduler_type == "metric":
+                        lr_scheduler.step(scores[self.key_metric])
+                    elif self.lr_scheduler_type == "loss":
+                        lr_scheduler.step(avg_batch_loss)
             self.epoch += 1
         return scores[self.key_metric]
 
@@ -418,11 +412,3 @@ class TemplateModel:
         for name, value in vars(self).items():
             if name not in except_member:
                 print(f"{name}:{value}")
-
-    def change_lr(self, lr_list):
-        """
-        改变优化器中记录的学习率，主要用于使用已有的模型继续训练时。
-        指定新的学习率，而不是已有模型的优化器中保存的学习率。
-        """
-        for i, optimizer in enumerate(self.optimizer_list):
-            optimizer.param_groups[0]['lr'] = lr_list[i]
