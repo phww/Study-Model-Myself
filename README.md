@@ -9,7 +9,7 @@ TODO：整理+上传+文档
 - Transformer
 
 ## 图片分类
-- [Vision Transformer（VIT）](https://github.com/phww/Study-Model-Myself/tree/main/VisionTransformer) TODO：文档
+- [Vision Transformer（VIT）](https://github.com/phww/Study-Model-Myself/tree/main/VisionTransformer) TODO：文档 + attention可视化
 
 ## 语义分割
 - Unet TODO：整理+上传+文档
@@ -21,4 +21,4 @@ TODO：整理+上传+文档
 - PointNet TODO：整理+上传+文档
 
 ## image/video caption
-- Show attend and tell TODO：未完成
+- [Show attend and tell](https://github.com/phww/Study-Model-Myself/tree/main/Show-Attend-And-Tell) 
