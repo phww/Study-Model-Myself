@@ -13,6 +13,8 @@
 >3. 搭建模型
 >4. 训练和推断
 >5. 结果分析
+>
+>[github](https://github.com/phww/Study-Model-Myself/tree/main/Show-Attend-And-Tell)
 
 ## 一、模型和数据集
 
